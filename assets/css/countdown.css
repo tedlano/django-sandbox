@@ -1,0 +1,45 @@
+#countdown {
+
+}
+
+	#countdown .num_block{
+		display: inline-block;
+		position: relative;
+		padding: 15px;
+	}
+
+	#countdown .number{
+		background: 	url("../img/timer-piece-l.png"),
+						url("../img/timer-piece-r.png"),
+						url("../img/timer-piece-m.png");
+		background-repeat: no-repeat, no-repeat, repeat-x;
+		background-position:  left top, right top, left top;
+		background-origin: border-box, border-box, padding-box;
+		background-clip: border-box, border-box, padding-box;
+		border-left:12px solid transparent;
+	    border-right:12px solid transparent;
+		color: #222222;
+		padding: 20px 8px 0px 8px;
+		height: 120px;
+		font: bold 60px Arial;
+		letter-spacing: -2px;
+		text-align: center;
+	}
+
+.timeLabel {
+	font: normal bold 14px Arial;
+	color: #939393;
+	padding-top: 15px;
+	text-align: center;
+	letter-spacing: 0;
+	margin: 0 auto;
+}
+
+.strikethrough{
+	position: absolute;
+    width: 60%;
+    border-top: 1px solid #FFFFFF;
+    left: 20%;
+    top: 39%;
+}
+

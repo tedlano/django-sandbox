@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ activity.title }}{% endblock %}
+
+{% block css %}
+<link type="text/css" media="screen" href="{% static 'activity_log/css/stopwatch.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>{{ activity.title }} <small>{{ activity.category.title }}</small></h2>
+    <p>{{ activity.description }}</p>
+</div>
+
+<input type="hidden" id="activity-id-hidden" name="activity-id" value="{{ activity.id }}">
+
+<div class="row">
+    <div class="col-md-3">
+        <h2>Add New Entry:</h2>
+        <form method="POST">{% csrf_token %}
+            <textarea id="comment-textarea" name="comment" rows="3">Enter Comment Here...</textarea>
+            
+            <audio id="alarm">
+                <source src="{% static 'activity_log/media/audio/metronome.mp3' %}" type="audio/mpeg">
+            </audio>
+            
+            <div class="stopwatch">
+                
+                <b>Duration: </b>
+                <input type="number" id="stopwatch_hr" class="stopwatch_number" name="hour" min="0" step="1"/> : 
+                <input type="number" id="stopwatch_min" class="stopwatch_number" name="min" min="0" max="59" step="1"/> : 
+                <input type="number" id="stopwatch_sec" class="stopwatch_number" name="sec" min="0" max="59" step = "1"/>
+                
+                <button type="button" name="play-pause" id='play_pause' class="btn btn-default btn-md" value="play">
+                    <span class="glyphicon glyphicon-play"></span> Start
+                </button>
+                
+            </div>
+            <br/>
+            <input type="submit" id="addLog-submit" class="btn btn-primary" name="addLog-submit" value="Add New Log">
+        </form>
+    </div>
+    
+    <div class="col-md-9">
+        <h2>Activity Log:</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>Created On</td>
+                    <td>Duration</td>
+                    <td>Comment</td>
+                </tr>
+            </thead>  
+            
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.created_at }}</td>
+                <td>{{ log.duration }}</td>
+                <td>{{ log.comment }}</td>
+            </tr>
+            {% endfor %}
+        </table>  
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block js-foot %}
+<script src="{% static 'activity_log/js/stopwatch.js' %}"></script>
+{% endblock %}
+    

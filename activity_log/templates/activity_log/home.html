@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Well hello there!{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/countdown.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1>Activity Log</h1>
+    <p>Here's a placeholder landing page where a user will be able to see a graph of their activity logs, goals, and an evaluation of their performance.<p>
+      <!--<a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">Don't Click Me &raquo;</a>-->
+    </p>
+</div>
+
+<h2>Categories</h2>
+<ul class="nav nav-pills nav-stacked">
+    {% for category in categories %}
+    <li role="presentation"><a class="text-center" href="{% url 'activity_log:activity_list' pk=category.pk %}">{{ category.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block js-foot %}
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+<script src="{% static 'js/countdown.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.title }}{% endblock %}
+
+{% block content %}
+<article>
+    <h2>{{ category.title }}</h2>
+    
+    <section>
+        {% for activity in category.activity_set.all %}
+            <h3>
+            <a href="{% url 'activity_log:activity_detail' category_pk=category.pk activity_pk=activity.pk %}">
+                {{ activity.title }}
+            </a>
+            </h3>
+            {{ activity.description }}
+        {% endfor %}
+    </section>
+</article>
+{% endblock %}

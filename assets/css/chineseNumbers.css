@@ -1,0 +1,81 @@
+.sound-button {
+    width: 80px;
+    height: 80px;
+    font-size: 2.8em;
+    background-color: #5bc0de;
+    border: solid 1px #000;
+    border-radius: 50%;
+    padding-top: 20px;
+}
+
+.number-quiz {
+    width: 80%;
+    text-align: center;
+    float: none;
+    margin: 0 auto;
+}
+
+.number-row{
+    padding: 3px;
+}
+
+.number{
+    width: 70px;
+    height: 70px;
+    padding: 10px;
+    border-radius: 20%;
+    font-size: 35px;
+}
+
+ /* input[type="text"], */
+ /* input[type="password"] {*/
+ /*     border: 1px solid #CCCCCC;*/
+ /*     box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);*/
+ /*     min-height: 22px;*/
+ /*     padding: 3px;*/
+ /*     margin: 2px;*/
+ /* }*/
+
+ /*.checkout input:focus {*/
+ /*    border:3px solid #6b991c; */
+ /*    padding:2px;*/
+ /*    margin: 0;*/
+ /*}*/
+ 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+#guess-input {
+    height: 90px;
+    width: 260px;
+    font-size: 70px;
+    border-radius: 30px;
+    text-align: center;
+    border: 1px solid;
+    margin: 0px;
+    
+    -webkit-transition: all .25s ease-in-out;
+    -moz-transition: all .25s ease-in-out;
+    -o-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
+}
+
+#guess-input:focus {
+    outline: none;
+    margin: 0px;
+}
+
+#guess-input.correct {
+    background-color: #07db00;
+}
+
+#guess-input.wrong {
+    background-color: #ff0033;
+}
+
+#guess-input.warning {
+    background-color: #ffcc00;
+}
