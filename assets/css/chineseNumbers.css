@@ -24,21 +24,6 @@
     border-radius: 20%;
     font-size: 35px;
 }
-
- /* input[type="text"], */
- /* input[type="password"] {*/
- /*     border: 1px solid #CCCCCC;*/
- /*     box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);*/
- /*     min-height: 22px;*/
- /*     padding: 3px;*/
- /*     margin: 2px;*/
- /* }*/
-
- /*.checkout input:focus {*/
- /*    border:3px solid #6b991c; */
- /*    padding:2px;*/
- /*    margin: 0;*/
- /*}*/
  
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {
