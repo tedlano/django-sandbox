@@ -1,15 +1,13 @@
 .sound-button {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
     font-size: 2.8em;
-    background-color: #5bc0de;
-    border: solid 1px #000;
     border-radius: 50%;
-    padding-top: 20px;
+    padding-top: 14px;
 }
 
 .number-quiz {
-    width: 80%;
+    width: 95%;
     text-align: center;
     float: none;
     margin: 0 auto;
@@ -20,9 +18,9 @@
 }
 
 .number{
-    width: 70px;
-    height: 70px;
-    padding: 10px;
+    width: 65px;
+    height: 65px;
+    padding: 8px;
     border-radius: 20%;
     font-size: 35px;
 }
@@ -49,9 +47,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #guess-input {
-    height: 90px;
+    height: 80px;
     width: 260px;
-    font-size: 70px;
+    font-size: 60px;
     border-radius: 30px;
     text-align: center;
     border: 1px solid;
