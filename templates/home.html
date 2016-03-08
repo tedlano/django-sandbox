@@ -5,113 +5,41 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/countdown.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/chineseNumbers.css' %}">
 {% endblock %}
 
 {% block content %}
-<!--<div class="jumbotron">-->
-<!--<h1>Hello Ted</h1>-->
-<!--<p>If you're not Ted then I'm not sure how you got here or what you're looking for.  If you want, you can practice your Mandarin numbers by selecting the volume icon, or take a look at the countdown clock to my birthday.-->
-<!--</p>-->
-<!--</div>-->
-
-<div class="number-quiz">
-	
-	<h1>Mandarin Numbers Quiz!</h1>
-	<p>Listen to the audio and enter the number.  Speech provided by <a href='http://responsivevoice.org/'>responsivevoice.org</a></p>
-	<br/>
-	<audio id="num-audio" type="audio/mpeg"></audio>
-	<button type="button" id="sound-button" class="btn btn-primary sound-button">
-		<span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
-	</button>
-	<br/><br/>
-	<input type="number" id="guess-input" name="guess" readonly/>
-	<p id='results-text'>Correct: 0, Wrong: 0, Streak: 0</p>
-	
-	<div id='number-entry-pad'>
-		<div class="number-row">
-			<button id="num-1" class="number">1</button>
-			<button id="num-2" class="number">2</button>
-			<button id="num-3" class="number">3</button>
-		</div>
-		
-		<div class="number-row">
-			<button id="num-4" class="number">4</button>
-			<button id="num-5" class="number">5</button>
-			<button id="num-6" class="number">6</button>
-		</div>
-		
-		<div class="number-row">
-			<button id="num-7" class="number">7</button>
-			<button id="num-8" class="number">8</button>
-			<button id="num-9" class="number">9</button>
-		</div>
-		
-		<div class="number-row">
-			<button id="num-rem" class="number btn-danger">
-				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-			</button>
-			<button id="num-0" class="number">0</button>
-			<button id="num-ok" class="number btn-success">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			</button>
-		</div>
-	</div>
-	<br/>
-
-	<p></p><b>Number of Digits</b></p>
-	<div id="digit-buttons" class="btn-group">
-		<button id="dig-1" class="digit btn btn-primary btn-sm">1</button>
-		<button id="dig-2" class="digit btn btn-primary btn-sm">2</button>
-		<button id="dig-3" class="digit btn btn-primary btn-sm active">3</button>
-		<button id="dig-4" class="digit btn btn-primary btn-sm">4</button>
-		<button id="dig-5" class="digit btn btn-primary btn-sm">5</button>
-		<button id="dig-6" class="digit btn btn-primary btn-sm">6</button>
-		<button id="dig-7" class="digit btn btn-primary btn-sm">7</button>
-		<button id="dig-8" class="digit btn btn-primary btn-sm">8</button>
-		<button id="dig-9" class="digit btn btn-primary btn-sm">9</button>
-	</div>
-	<br/><br/>
-
-	<p><b>Toggle Number Display</b></p>
-	<div id="label-toggle" class="btn-group">
-    	<button id="num-std" class="options-numDisplay btn btn-primary btn-sm active">Standard Numbers</button>
-    	<button id="num-cn" class="options-numDisplay btn btn-primary btn-sm">Chinese Characters</button>
-	</div>
-	
-	<br/><br/>
+<div class="jumbotron">
+<h1>Hello Ted</h1>
+<p>If you're not Ted then I'm not sure how you got here or what you're looking for.  If you want, you can practice practice foreign numbers using the Numbers Quiz, or take a look at the countdown clock to my birthday.
+</p>
 </div>
 
-<!--<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>-->
-
-<!--<ul id="countdown">-->
-<!--	<li class="num_block">-->
-<!--		<div class="number days">00</div>-->
-<!--		<span class="strikethrough"></span>-->
-<!--		<p class="timeLabel">DAYS</p>-->
-<!--	</li>-->
-<!--	<li class="num_block">-->
-<!--		<div class="number hours">00</div>-->
-<!--		<span class="strikethrough"></span>-->
-<!--		<p class="timeLabel">HOURS</p>-->
-<!--	</li>-->
-<!--	<li class="num_block">-->
-<!--		<div class="number minutes">00</div>-->
-<!--		<span class="strikethrough"></span>-->
-<!--		<p class="timeLabel">MINUTES</p>-->
-<!--	</li>-->
-<!--	<li class="num_block">-->
-<!--		<div class="number seconds">00</div>-->
-<!--		<span class="strikethrough"></span>-->
-<!--		<p class="timeLabel">SECONDS</p>-->
-<!--	</li>-->
-<!--</ul>-->
+<ul id="countdown">
+	<li class="num_block">
+		<div class="number days">00</div>
+		<span class="strikethrough"></span>
+		<p class="timeLabel">DAYS</p>
+	</li>
+	<li class="num_block">
+		<div class="number hours">00</div>
+		<span class="strikethrough"></span>
+		<p class="timeLabel">HOURS</p>
+	</li>
+	<li class="num_block">
+		<div class="number minutes">00</div>
+		<span class="strikethrough"></span>
+		<p class="timeLabel">MINUTES</p>
+	</li>
+	<li class="num_block">
+		<div class="number seconds">00</div>
+		<span class="strikethrough"></span>
+		<p class="timeLabel">SECONDS</p>
+	</li>
+</ul>
 
 
 {% endblock %}
 
 {% block js-foot %}
-<!--<script src="{% static 'js/countdown.js' %}"></script>-->
-<script src="{% static 'js/responsivevoice.js' %}"></script>
-<script src="{% static 'js/chineseNumbers.js' %}"></script>
+<script src="{% static 'js/countdown.js' %}"></script>
 {% endblock %}

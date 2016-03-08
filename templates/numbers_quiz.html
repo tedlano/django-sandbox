@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Well hello there!{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/chineseNumbers.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="number-quiz">
+	
+	<h2>Numbers Quiz!</h2>
+	<p>Select language, listen, and guess number</p>
+
+	<audio id="num-audio" type="audio/mpeg"></audio>
+	<button type="button" id="sound-button" class="btn btn-primary sound-button">
+		<span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+	</button>
+	<br/><br/>
+	<input type="number" id="guess-input" name="guess"/>
+	<p id='results-text'>Correct: 0, Wrong: 0, Streak: 0</p>
+	
+	<div id='number-entry-pad'>
+		<div class="number-row">
+			<button id="num-1" class="number">1</button>
+			<button id="num-2" class="number">2</button>
+			<button id="num-3" class="number">3</button>
+		</div>
+		
+		<div class="number-row">
+			<button id="num-4" class="number">4</button>
+			<button id="num-5" class="number">5</button>
+			<button id="num-6" class="number">6</button>
+		</div>
+		
+		<div class="number-row">
+			<button id="num-7" class="number">7</button>
+			<button id="num-8" class="number">8</button>
+			<button id="num-9" class="number">9</button>
+		</div>
+		
+		<div class="number-row">
+			<button id="num-rem" class="number btn-danger">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			</button>
+			<button id="num-0" class="number">0</button>
+			<button id="num-ok" class="number btn-success">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			</button>
+		</div>
+	</div>
+	<br/>
+
+	<div class="settings">
+		<p><b>Number of Digits</b></p>
+		<div id="digit-buttons" class="btn-group">
+			<button id="dig-1" class="digit btn btn-primary btn-sm">1</button>
+			<button id="dig-2" class="digit btn btn-primary btn-sm">2</button>
+			<button id="dig-3" class="digit btn btn-primary btn-sm active">3</button>
+			<button id="dig-4" class="digit btn btn-primary btn-sm">4</button>
+			<button id="dig-5" class="digit btn btn-primary btn-sm">5</button>
+			<button id="dig-6" class="digit btn btn-primary btn-sm">6</button>
+			<button id="dig-7" class="digit btn btn-primary btn-sm">7</button>
+			<button id="dig-8" class="digit btn btn-primary btn-sm">8</button>
+			<button id="dig-9" class="digit btn btn-primary btn-sm">9</button>
+		</div>
+		<br/><br/>
+	
+		<p><b>Toggle Number Display</b></p>
+		<div id="label-toggle" class="btn-group">
+	    	<button id="num-std" class="options-numDisplay btn btn-primary btn-sm active">Standard Numbers</button>
+	    	<button id="num-cn" class="options-numDisplay btn btn-primary btn-sm">Chinese Characters</button>
+		</div>
+		<br/><br/>
+		
+		<b>Language </b>
+		<select id="lang-select" class="selectpicker btn btn-primary btn-sm">
+	        <option value="Arabic-Male">Arabic</option>
+	        <option value="Czech-Female">Czech</option>
+	        <option value="Chinese-Female" selected=true>Chinese (Mandarin)</option>
+	        <option value="Danish-Female">Danish</option>
+	        <option value="French-Female">French</option>
+	        <option value="Deutsch-Female">German</option>
+	        <option value="Italian-Female">Italian</option>
+	        <option value="Japanese-Female">Japanese</option>
+	        <option value="Korean-Female">Korean</option>
+	        <option value="Portuguese-Female">Portuguese</option>
+	        <option value="Russian-Female">Russian</option>
+	        <option value="Spanish-Female">Spanish</option>
+	        <option value="Thai-Female">Thai</option>
+	        <option value="Vietnamese-Male">Vietnamese</option>
+	  	</select>
+	</div>
+	
+	<br/>
+	<p>Speech provided by <a href='http://responsivevoice.org/'>responsivevoice.org</a></p>
+</div>
+
+{% endblock %}
+
+{% block js-foot %}
+<script src="{% static 'js/responsivevoice.js' %}"></script>
+<script src="{% static 'js/chineseNumbers.js' %}"></script>
+{% endblock %}

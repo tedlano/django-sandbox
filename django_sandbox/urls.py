@@ -23,6 +23,8 @@ from . import views
 urlpatterns = [
     url(r'^activity_log/', include('activity_log.urls', namespace='activity_log')),
     url(r'^admin/', admin.site.urls),
+    url(r'^numbers_quiz$', views.numbers_quiz),
+    url(r'nibuzhidaodeshi$', views.nibuzhidaodeshi),
     url(r'^$', views.home),
 ]
 
