@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create New Captions{% endblock %}
+
+{% block css %}
+<link type="text/css" href="{% static 'caption_maker/css/create_new.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="source">
+	
+	<h1>Step 1: Find YouTube Source Video</h1>
+	<p>Enter YouTube URL and click "Load Source" to get video</p>
+    <input type="text" id="source-input" name="source-input"/>
+    <button type="button" id="source-load" class="btb btn-primary">Load Source</button>
+    
+    <br/><br/>
+    <div id="player" class="video"></div>
+    <br/><br/>
+    
+    <h1>Step 2: Enter Captions</h1>
+    <p>Creat a label for your captions (eg: English, Mandarin, etc), and then enter or paste captions in text area (broken up by line)</p><br/>
+    <b>Caption Label (eg: English, Mandarin): </b>
+    <input type="text" id="captions-label" name="captions-label"/><br/><br/>
+    <textarea id="captions-textarea" name="captions" rows="9"></textarea><br/>
+    <button type="button" id="captions-load" class="btb btn-primary">Load Captions</button>
+    <br/><br/>
+    
+    <h1>Step 3: Set Caption Timestamps</h1>
+    <p>Play the YouTube video and set when you want your captions to be highlighted.  Captions will be highlighted at the mark, and the highlight will move down to the next one at the next mark.</p>
+    <table id="captions-table" class="table table-bordered hide">
+        <thead class="btn-primary">
+            <tr>
+                <td>Caption</td>
+                <td>Start Timestamp</td>
+                <td>Set Timestamp</td>
+            </tr>
+        </thead>
+        <tbody id='captions-tbody'></tbody>
+    </table>
+    
+    
+
+</div>
+
+{% endblock %}
+
+{% block js-foot %}
+<script src="{% static 'caption_maker/js/create_new.js' %}"></script>
+{% endblock %}

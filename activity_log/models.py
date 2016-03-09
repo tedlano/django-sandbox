@@ -46,7 +46,6 @@ class Log(models.Model):
         
 class LogTimer(models.Model):
     log = models.ForeignKey(Log)
-    duration = models.IntegerField()
     action = models.BooleanField() # 1=start/resume, 0=pause
     action_time = models.DateTimeField(auto_now_add=True)
     

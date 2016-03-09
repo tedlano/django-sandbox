@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'activity_log',
+    'caption_maker',
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -64,6 +64,8 @@ function findActiveCaption(){
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: 'oHdS2Vfo0vM',
+        iv_load_policy: 3,
+        modestbranding: 1,
         
         events: {
             'onStateChange': onPlayerStateChange
