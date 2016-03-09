@@ -5,44 +5,87 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/chinese.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/responsive-video.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container text-center">
-    <iframe width="560" height="315" 
-            src="https://www.youtube.com/embed/oHdS2Vfo0vM" frameborder="0">
-    </iframe>
-    
-    <br/><br/>
 
-    <div class="hanzi">
-        蝴蝶眨几次眼睛<br/>
-        才学会飞行<br/>
-        夜空洒满了星星<br/>
-        但几颗会落地<br/>
-        <br/>
-        我飞行 但你坠落之际<br/>
-        很靠近 还听见呼吸<br/>
-        对不起 我却没捉紧你<br/>
-        <br/>
-        你不知道我为什么离开你<br/>
-        我坚持不能说放任你哭泣<br/>
-        你的泪滴像 倾盆大雨 碎了满地<br/>
-        在心里清晰<br/>
-        <br/>
-        你不知道我为什么狠下心<br/>
-        盘旋在你看不见的高空里<br/>
-        多的是 你不知道的事<br/>
-        <br/>
-        我飞行 但你坠落之际<br/>
-        你不知道我为什么离开你<br/>
-        我坚持不能说放任你哭泣<br/>
-        你的泪滴像 倾盆大雨 碎了满地<br/>
-        在心里清晰<br/>
+<div class="text-center row">
+    <div class=".col-md-12">
+    
+    <div id="player" class="video"></div>
+    
+    <!--<iframe width="560" height="315" -->
+    <!--        src="https://www.youtube.com/embed/oHdS2Vfo0vM" frameborder="0">-->
+    <!--</iframe>-->
+    <br/>
+	<div id="pinyin-toggle" class="btn-group">
+    	<button id="py-show" class="py-toggle btn btn-primary btn-sm active">Show Pinyin</button>
+    	<button id="py-hide" class="py-toggle btn btn-primary btn-sm">Hide Pinyin</button>
+	</div>
+		
+    <br/><br/>
+    
+    <div class="lyrics-container center">
+        <table class="lyrics center">
+            <tbody>
+                <tr id="cn-1" class="hanzi"><td>蝴蝶眨几次眼睛</td></tr>
+                <tr id="py-1" class="pinyin"><td>Húdié zhǎ jǐ cì yǎnjīng</td></tr>
+                <tr id="cn-2" class="hanzi"><td>才学会飞行</td></tr>
+                <tr id="py-2" class="pinyin"><td>cái xuéhuì fēixíng</td></tr>
+                <tr id="cn-3" class="hanzi"><td>夜空洒满了星星</td></tr>
+                <tr id="py-3" class="pinyin"><td>yèkōng sǎ mǎnle xīngxīng</td></tr>
+                <tr id="cn-4" class="hanzi"><td>但几颗会落地</td></tr>
+                <tr id="py-4" class="pinyin"><td>dàn jǐ kē huì luòdì</td></tr>
+                <tr><td> &nbsp; </td></tr>
+                <tr id="cn-5" class="hanzi"><td>我飞行 但你坠落之际</td></tr>
+                <tr id="py-5" class="pinyin"><td>wǒ fēixíng dàn nǐ zhuìluò zhī jì</td></tr>
+                <tr id="cn-6" class="hanzi"><td>很靠近 还听见呼吸</td></tr>
+                <tr id="py-6" class="pinyin"><td>hěn kàojìn hái tīngjiàn hūxī</td></tr>
+                <tr id="cn-7" class="hanzi"><td>对不起 我却没捉紧你</td></tr>
+                <tr id="py-7" class="pinyin"><td>duìbùqǐ wǒ què méi zhuō jǐn nǐ</td></tr>
+                <tr><td> &nbsp; </td></tr>
+                <tr id="cn-8" class="hanzi"><td>你不知道我为什么离开你</td></tr>
+                <tr id="py-8" class="pinyin"><td>nǐ bù zhīdào wǒ wèishéme líkāi nǐ</td></tr>
+                <tr id="cn-9" class="hanzi"><td>我坚持不能说放任你哭泣</td></tr>
+                <tr id="py-9" class="pinyin"><td>wǒ jiānchí bùnéng shuō fàngrèn nǐ kūqì</td></tr>
+                <tr id="cn-10" class="hanzi"><td>你的泪滴像 倾盆大雨 碎了满地</td></tr>
+                <tr id="py-10" class="pinyin"><td>nǐ de lèi dī xiàng qīngpén dàyǔ suìle mǎn dì</td></tr>
+                <tr id="cn-11" class="hanzi"><td>在心里清晰</td></tr>
+                <tr id="py-11" class="pinyin"><td>zài xīnlǐ qīngxī</td></tr>
+                <tr><td> &nbsp; </td></tr>
+                <tr id="cn-12" class="hanzi"><td>你不知道我为什么狠下心</td></tr>
+                <tr id="py-12" class="pinyin"><td>nǐ bù zhīdào wǒ wèishéme hěn xiàxīn</td></tr>
+                <tr id="cn-13" class="hanzi"><td>盘旋在你看不见的高空里</td></tr>
+                <tr id="py-13" class="pinyin"><td>pánxuán zài nǐ kàn bùjiàn de gāokōng lǐ</td></tr>
+                <tr id="cn-14" class="hanzi"><td>多的是 你不知道的事</td></tr>
+                <tr id="py-14" class="pinyin"><td>duō de shì nǐ bù zhīdào de shì</td></tr>
+                <tr><td> &nbsp; </td></tr>
+                <tr id="cn-15" class="hanzi"><td>我飞行 但你坠落之际</td></tr>
+                <tr id="py-15" class="pinyin"><td>wǒ fēixíng dàn nǐ zhuìluò zhī jì</td></tr>
+                <tr id="cn-16" class="hanzi"><td>你不知道我为什么离开你</td></tr>
+                <tr id="py-16" class="pinyin"><td>nǐ bù zhīdào wǒ wèishéme líkāi nǐ</td></tr>
+                <tr id="cn-17" class="hanzi"><td>我坚持不能说放任你哭泣</td></tr>
+                <tr id="py-17" class="pinyin"><td>wǒ jiānchí bùnéng shuō fàngrèn nǐ kūqì</td></tr>
+                <tr id="cn-18" class="hanzi"><td>你的泪滴像 倾盆大雨 碎了满地</td></tr>
+                <tr id="py-18" class="pinyin"><td>nǐ de lèi dī xiàng qīngpén dàyǔ suìle mǎn dì</td></tr>
+                <tr id="cn-19" class="hanzi"><td>在心里清晰</td></tr>
+                <tr id="py-19" class="pinyin"><td>zài xīnlǐ qīngxī</td></tr>
+                <tr><td> &nbsp; </td></tr>
+                <tr id="cn-20" class="hanzi"><td>你不知道我为什么狠下心</td></tr>
+                <tr id="py-20" class="pinyin"><td>nǐ bù zhīdào wǒ wèishéme hěn xiàxīn</td></tr>
+                <tr id="cn-21" class="hanzi"><td>盘旋在你看不见的高空里</td></tr>
+                <tr id="py-21" class="pinyin"><td>pánxuán zài nǐ kàn bùjiàn de gāokōng lǐ</td></tr>
+                <tr id="cn-22" class="hanzi"><td>多的是 你不知道的事</td></tr>
+                <tr id="py-22" class="pinyin"><td>duō de shì nǐ bù zhīdào de shì</td></tr>
+            </tbody>
+        </table>
+    </div>
     </div>
 </div>
 {% endblock %}
 
 {% block js-foot %}
-
+<script src="{% static 'js/popcorn-complete.min.js' %}"></script>
+<script src="{% static 'js/nibuzhidaodeshi.js' %}"></script>
 {% endblock %}
