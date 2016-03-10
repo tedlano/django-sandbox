@@ -3,6 +3,10 @@
     overflow: hidden;
 }
 
+#captions-textarea {
+    width: 427px;
+}
+
 .table-input{
     width: 100%;
     border: none;

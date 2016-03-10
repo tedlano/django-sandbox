@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Well hello there!{% endblock %}
+{% block title %}Numbers Quiz{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/chineseNumbers.css' %}">
@@ -12,7 +12,7 @@
 <div class="number-quiz">
 	
 	<h2>Numbers Quiz!</h2>
-	<p>Select language, listen, and guess number</p>
+	<p>Select language, click speaker icon to listen, and guess number</p>
 
 	<audio id="num-audio" type="audio/mpeg"></audio>
 	<button type="button" id="sound-button" class="btn btn-primary sound-button">

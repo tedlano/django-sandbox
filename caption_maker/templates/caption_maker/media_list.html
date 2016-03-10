@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Captioned Videos{% endblock %}
+
+{% block content %}
+<h1>List of All Captioned Videos</h1>
+
+<table>
+    <thead>
+        <tr>
+            <td>Title</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for media in media_list %}
+        <tr>
+            <td>
+                <a href="{% url 'caption_maker:media_detail' media_pk=media.pk %}">
+                    {{ media.title }}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

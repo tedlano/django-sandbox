@@ -11,17 +11,33 @@
 
 <div class="source">
 	
-	<h1>Step 1: Find YouTube Source Video</h1>
+	<h1>Step 1: Find YouTube Source Video, Review Details</h1>
 	<p>Enter YouTube URL and click "Load Source" to get video</p>
     <input type="text" id="source-input" name="source-input"/>
     <button type="button" id="source-load" class="btb btn-primary">Load Source</button>
-    
     <br/><br/>
-    <div id="player" class="video"></div>
+    
+    <table>
+        <tbody>
+            <tr>
+                <td><b>Title</b></td>
+                <td><input type="text" id="source-title" name="source-title"/></td>
+            </tr>
+            <tr>
+                <td><b>Author</b></td>
+                <td><input type="text" id="source-author" name="source-author"/></td>
+            </tr>
+            <tr>
+                <td><b>Description</b></td>
+                <td><input type="text" id="source-description" name="source-description"/></td>
+            </tr>
+        </tbody>
+    </table>
+    
     <br/><br/>
     
     <h1>Step 2: Enter Captions</h1>
-    <p>Creat a label for your captions (eg: English, Mandarin, etc), and then enter or paste captions in text area (broken up by line)</p><br/>
+    <p>Create a label for your captions (eg: English, Mandarin, etc), and then enter or paste captions in text area (broken up by line)</p>
     <b>Caption Label (eg: English, Mandarin): </b>
     <input type="text" id="captions-label" name="captions-label"/><br/><br/>
     <textarea id="captions-textarea" name="captions" rows="9"></textarea><br/>
@@ -30,6 +46,11 @@
     
     <h1>Step 3: Set Caption Timestamps</h1>
     <p>Play the YouTube video and set when you want your captions to be highlighted.  Captions will be highlighted at the mark, and the highlight will move down to the next one at the next mark.</p>
+    
+    <br/><br/>
+    <div id="player" class="video"></div>
+    <br/><br/>
+    
     <table id="captions-table" class="table table-bordered hide">
         <thead class="btn-primary">
             <tr>
@@ -40,8 +61,11 @@
         </thead>
         <tbody id='captions-tbody'></tbody>
     </table>
+    <br/><br/>
     
-    
+    <h1>Step 4: Review and Save</h1>
+    <p>Review everything and when you're statisfied, click save</p>
+    <button type="button" id="captions-submit" class="btb btn-primary">Submit Captions</button>
 
 </div>
 
