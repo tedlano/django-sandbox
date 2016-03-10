@@ -1,0 +1,32 @@
+.video{
+    height: 35vh;
+    max-width: 600px;
+    width: 98%;
+}
+
+.highlight{
+    background-color: #fff2a8;
+}
+
+.chinese{
+    font-size: 28px;
+}
+
+.lyrics{
+    border: none;
+}
+
+.lyrics-container{
+    border: 2px solid #000;
+    width: 98%;
+    max-width: 600px;
+    height: 40vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.center{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}

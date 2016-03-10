@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Captioned Videos{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'caption_maker/css/media_detail.css' %}">
+<script>
+    var videoId = "{{ media.reference_id }}";
+    var timeArr = {{ timeList|safe }};
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center row">
+    <div class=".col-md-12">
+    
+        <div id="player" class="video"></div>
+        
+        <div class="lyrics-container center">
+            <table class="lyrics center">
+                <tbody>
+                    
+                    {% for line in caption.captionline_set.all %}
+                    <tr id="primary-{{ line.order }}" class="primary {{ caption.label|lower }}">
+                        <td>
+                            {{ line.text }}
+                        </td>
+                    </tr>
+                    
+                    {% if line.break_after %}
+                    <tr><td> &nbsp; </td></tr>
+                    {% endif %}
+                        
+                    {% endfor %}
+                    
+                </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js-foot %}
+<script src="{% static 'caption_maker/js/media_detail.js' %}"></script>
+{% endblock %}

@@ -43,9 +43,17 @@ def submit_captions(request):
 
 
 def media_detail(request, media_pk):
+    media = get_object_or_404(Media, pk=media_pk)
     caption = get_object_or_404(Caption, media_id=media_pk)
-    print(caption)
+    timeList = []
+    
+    for cap in caption.captionline_set.all():
+        timeList.append(float(cap.mark_time))
+
+    print(timeList)
     context = {
-        'caption': caption
+        'media': media,
+        'caption': caption,
+        'timeList': timeList
     }
     return render(request, 'caption_maker/media_detail.html', context)
