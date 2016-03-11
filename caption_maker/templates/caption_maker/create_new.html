@@ -9,66 +9,154 @@
 
 {% block content %}
 
-<div class="source">
-	
-	<h1>Step 1: Find YouTube Source Video, Review Details</h1>
-	<p>Enter YouTube URL and click "Load Source" to get video</p>
-    <input type="text" id="source-input" name="source-input"/>
-    <button type="button" id="source-load" class="btb btn-primary">Load Source</button>
-    <br/><br/>
+<div class="row">
+  <div class="col-md-9 center">
     
-    <table>
-        <tbody>
-            <tr>
-                <td><b>Title</b></td>
-                <td><input type="text" id="source-title" name="source-title"/></td>
-            </tr>
-            <tr>
-                <td><b>Author</b></td>
-                <td><input type="text" id="source-author" name="source-author"/></td>
-            </tr>
-            <tr>
-                <td><b>Description</b></td>
-                <td><input type="text" id="source-description" name="source-description"/></td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <br/><br/>
+    <h1>Step 1: Find YouTube Source Video, Review Details</h1>
+    <div class="panel panel-primary">
+      <!--<div class="panel-heading">-->
+      <!--  <h2 class="panel-title">Step 1: Find YouTube Source Video, Review Details</h2>-->
+      <!--</div>-->
+
+      <div class="panel-body">
+        <p>Enter YouTube URL and click "Load Source" to get video.  Enter in as many details as you want, and proceed to Step 2.</p>
+        <form class="form-horizontal">
+
+          <div class="form-group required">
+            <label for="source-input" class="col-sm-3 control-label">Media Source URL </label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button type="button" id= "source-load" class="btn btn-primary">Load Source</button>
+                </span>
+                <input type="text" class="form-control" id="source-input" placeholder="Enter / Paste Source URL here">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label for="source-title" class="col-sm-3 control-label">Media Title </label>
+            <div class="col-sm-8">
+              <input type="text" id="source-title" class="form-control" placeholder="eg: Smooth Criminal"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="source-author" class="col-sm-3 control-label">Author</label>
+            <div class="col-sm-8">
+              <input type="text" id="source-author" class="form-control" placeholder="eg: Michael Jackson"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="source-author" class="col-sm-3 control-label">Description</label>
+            <div class="col-sm-8">
+              <textarea id="source-description" class="form-control" placeholder="Enter Description Here..." rows="5"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <br/>
     
     <h1>Step 2: Enter Captions</h1>
-    <p>Create a label for your captions (eg: English, Mandarin, etc), and then enter or paste captions in text area (broken up by line)</p>
-    <b>Caption Label (eg: English, Mandarin): </b>
-    <input type="text" id="captions-label" name="captions-label"/><br/><br/>
-    <textarea id="captions-textarea" name="captions" rows="9"></textarea><br/>
-    <button type="button" id="captions-load" class="btb btn-primary">Load Captions</button>
-    <br/><br/>
-    
+    <div class="panel panel-primary">
+      <!--<div class="panel-heading">-->
+      <!--  <h2 class="panel-title">Step 2: Enter Captions</h2>-->
+      <!--</div>-->
+
+      <div class="panel-body">
+        <p>Create a label for your captions and then enter or paste captions in text area (broken up by line)</p>
+        <div class="row">
+          <form class="form-horizontal">
+            <div class="form-group required">
+              <label for="captions-label" class="col-sm-3 control-label">Caption Label </label>
+              <div class="col-sm-3">
+                <input type="text" id="captions-label" class="form-control" placeholder="eg: English, Chinese, etc."/>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label for="captions-textarea" class="col-sm-3 control-label">Captions </label>
+              <div class="col-sm-8">
+                <textarea id="captions-textarea" class="form-control" placeholder="Enter / Paste captions here..." rows="10"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="captions-load" class="col-sm-3 control-label"></label>
+              <div class="col-sm-8">
+                <button type="button" id="captions-load" class="btn btn-primary">Load Captions</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <br/>
     <h1>Step 3: Set Caption Timestamps</h1>
-    <p>Play the YouTube video and set when you want your captions to be highlighted.  Captions will be highlighted at the mark, and the highlight will move down to the next one at the next mark.</p>
+    <div class="panel panel-primary">
+      <!--<div class="panel-heading">-->
+      <!--  <h2 class="panel-title">Step 3: Set Caption Timestamps</h2>-->
+      <!--</div>-->
+
+      <div class="panel-body">
+        <p>Play the YouTube video and set when you want your captions to 
+          be highlighted.  Captions will be highlighted at the mark, and 
+          the highlight will move down to the next one at the next mark.
+        </p>
+        <div class="row">
+          <div id="player" class="video col-sm-12 text-center">
+            <br/><br/><br/><br/>No Video Loaded<br/><br/><br/><br/>
+          </div>
+          <form class="form-inline text-center">
+            <div id="start-stop-marks" class="form-group">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button type="button" id= "source-start-button" class="btn btn-primary">Mark Start</button>
+                </span>
+                <input type="number" step="0.1" class="form-control" id="source-start" placeholder="0.0" value="0">
+              </div>
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button type="button" id= "source-end-button" class="btn btn-primary">Mark End</button>
+                </span>
+                <input type="number" step="0.1" class="form-control" id="source-end" placeholder="0.0">
+              </div>
+            </div>
+          </form>
+          <br/>
+          <div class="col-sm-10 center">
+            <div class="row">
+              <div class="table-container hide">
+                <table id="captions-table" class="table table-bordered">
+                  <thead class="btn-primary">
+                    <tr>
+                      <td class="col-sm-9">Caption</td>
+                      <td class="col-sm-2">Start</td>
+                      <td class="col-sm-1">Set</td>
+                    </tr>
+                  </thead>
+                  <tbody id='captions-tbody'></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
-    <br/><br/>
-    <div id="player" class="video"></div>
-    <br/><br/>
-    
-    <table id="captions-table" class="table table-bordered hide">
-        <thead class="btn-primary">
-            <tr>
-                <td>Caption</td>
-                <td>Start Timestamp</td>
-                <td>Set Timestamp</td>
-            </tr>
-        </thead>
-        <tbody id='captions-tbody'></tbody>
-    </table>
-    <br/><br/>
-    
+    <br/>
+
     <h1>Step 4: Review and Save</h1>
-    <p>Review everything and when you're statisfied, click save</p>
-    <button type="button" id="captions-submit" class="btb btn-primary">Submit Captions</button>
-
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <p>Review everything and when you're statisfied, click "Submit Captions"</p>
+          <button type="button" id="captions-submit" class="btb btn-primary">Submit Captions</button>
+        </div>
+      </div>
+  </div>
 </div>
-
 {% endblock %}
 
 {% block js-foot %}

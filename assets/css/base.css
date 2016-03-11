@@ -1,0 +1,13 @@
+.navbar-brand img {
+    margin-top: -7px;
+}
+
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+
+.center{
+    float: none;
+    margin: 0 auto;
+}

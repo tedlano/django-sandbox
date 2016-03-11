@@ -18,6 +18,13 @@ function onPlayerReady(){
     var videoData = player.getVideoData();
     $('#source-title').val(videoData.title);
     $('#source-author').val(videoData.author);
+    
+    //Clear "No Video Loaded" message
+     $('#player').html("");
+}
+
+function onPlayerError(){
+    $('#source-input').closest('.form-group').addClass("has-error");
 }
 
 // Trigger when Youtube Iframe is ready
@@ -29,6 +36,7 @@ function initPlayer(vidId) {
         
         events: {
             'onReady': onPlayerReady,
+            'onError': onPlayerError,
         }
     });
 }
@@ -40,6 +48,7 @@ function getAllData(){
     var author = $('#source-author').val();
     var capLabel = $('#captions-label').val();
     var tableRows = $('#captions-tbody').children();
+    var startTime = $('#source-start').val();
     var order = 1;
     var skipped = 1;
     var captionArr = [];
@@ -72,10 +81,20 @@ function getAllData(){
         'refId': refId,
         'title': title,
         'author': author,
+        'start': startTime,
         'capLabel': capLabel,
         'captions': JSON.stringify(captionArr),
         'csrfmiddlewaretoken': csrftoken
     };
+}
+
+// Scroll table when marking caption times
+function scroll(ele){
+    var container = $('.table-container');
+    console.log("eleOffsetTop: ", ele.offset().top, " , conOffsetTop: ", container.offset().top, " , conScrollTop: ", container.scrollTop());
+    container.animate({
+        scrollTop: ele.offset().top - container.offset().top + container.scrollTop() - 94
+    });
 }
 
 $( window ).load( function() {
@@ -101,15 +120,18 @@ $( window ).load( function() {
         
         var table = $('#captions-table');
         $("#captions-tbody").empty();
-        table.removeClass("hide");
+        $('.table-container').removeClass("hide");
         
         for(var i=0; i<captionArr.length; i++){
             var cap = captionArr[i];
             var newRow = document.createElement('tr');
             
             var td1 = document.createElement('td');
+            td1.className = "col-sm-9"
             var td2 = document.createElement('td');
+            td2.className = "col-sm-2 col-mark"
             var td3 = document.createElement('td');
+            td3.className = "col-sm-1"
             
             if(cap != ""){
                 var td1_input = document.createElement('input');
@@ -126,13 +148,15 @@ $( window ).load( function() {
                 
                 var td3_button = document.createElement('button');
                 td3_button.type = "button";
-                td3_button.className = "btn btn-primary timestamp-button";
+                td3_button.className = "btn btn-primary btn-sm timestamp-button";
                 td3_button.textContent = "Set";
                 td3_button.addEventListener('click', function(){
-                    var trow = $(this).closest('tr');
+                    var _this = $(this);
+                    var trow = _this.closest('tr');
                     var timestamp = trow.find('td')[1].firstChild;
                     timestamp.value= Math.floor(player.getCurrentTime() * 10) / 10;
-                    trow.addClass("success");
+                    _this.addClass("btn-success");
+                    scroll(_this);
                 });
                 td3.appendChild(td3_button);
             }else{
@@ -145,6 +169,12 @@ $( window ).load( function() {
             
             table.append(newRow);
         }
+    });
+    
+    // Log start and end times when buttons are clicked
+    $('#start-stop-marks button').click(function () {
+        $(this).closest('.input-group').find('input')
+            .val(Math.floor(player.getCurrentTime() * 10) / 10);
     });
     
     // Submit captions to DB

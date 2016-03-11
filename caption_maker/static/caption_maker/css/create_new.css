@@ -3,7 +3,7 @@
     overflow: hidden;
 }
 
-#captions-textarea {
+textarea {
     width: 427px;
 }
 
@@ -14,4 +14,27 @@
 
 .grey{
     background-color: grey;
+}
+
+.video{
+    width: 100%; 
+    max-height: 600px;
+}
+
+#source-start, #source-end{
+    width: 80px;
+}
+
+#start-stop-marks{
+    padding-top: 10px;
+}
+
+.col-mark input{
+    width: 100%;
+}
+
+.table-container{
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
