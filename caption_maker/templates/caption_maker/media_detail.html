@@ -22,16 +22,19 @@
             <table class="lyrics center">
                 <tbody>
                     
-                    {% for line in caption.captionline_set.all %}
-                    <tr id="primary-{{ line.order }}" class="primary {{ caption.label|lower }}">
-                        <td>
-                            {{ line.text }}
-                        </td>
-                    </tr>
-                    
-                    {% if line.break_after %}
-                    <tr><td> &nbsp; </td></tr>
-                    {% endif %}
+                    {% for capLine in captionLines %}
+                        {% for cap in capLine.caption_set.all %}
+                            <tr id="primary-{{ capLine.order }}" class="primary {{ cap.label|lower }}">
+                                <td>
+                                    {{ cap.text }}
+                                </td>
+                            </tr>
+                        
+                            {% if capLine.break_after %}
+                                <tr><td> &nbsp; </td></tr>
+                            {% endif %}
+                        
+                        {% endfor %}
                         
                     {% endfor %}
                     

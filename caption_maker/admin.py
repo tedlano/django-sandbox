@@ -3,13 +3,13 @@ from django.contrib import admin
 # Register your models here.
 from .models import Media, Caption, CaptionLine
 
-class CaptionLineInline(admin.StackedInline):
-    model = CaptionLine
+class CaptionInline(admin.StackedInline):
+    model = Caption
 
-class CaptionAdmin(admin.ModelAdmin):
-    inlines = [CaptionLineInline,]
+class CaptionLineAdmin(admin.ModelAdmin):
+    inlines = [CaptionInline,]
     
 
 admin.site.register(Media)
-admin.site.register(Caption, CaptionAdmin)
-admin.site.register(CaptionLine)
+admin.site.register(CaptionLine, CaptionLineAdmin)
+admin.site.register(Caption)

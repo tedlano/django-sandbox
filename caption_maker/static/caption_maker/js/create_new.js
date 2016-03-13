@@ -46,41 +46,40 @@ function getAllData(){
     var refId = videoId;
     var title = $('#source-title').val();
     var author = $('#source-author').val();
+    var description = $('#source-description').val();
     var capLabel = $('#captions-label').val();
-    var tableRows = $('#captions-tbody').children();
     var startTime = $('#source-start').val();
     var order = 1;
     var skipped = 1;
     var captionArr = [];
     
-    // Get all captions and push to object
-    for(var i=0; i<tableRows.length; i++){
-        var cells = tableRows[i].children;
+    // Loop through all caption table rows and create caption objects
+    $('#captions-tbody').children().each(function (i) {
+        var $cells = this.children;
         var caption = {};
         
-        // If cell has no children, it is a blank cell
-        if(!cells[0].firstChild){
+        if(!$cells[0].firstChild){
             captionArr[i-skipped].break_after = true;
             skipped++;
-            continue;
+            return;
         }
         
-        var captionText = cells[0].firstChild.value;
-        
+        var captionText = $cells[0].firstChild.value;
         caption.order = order;
         caption.text = captionText;
-        caption.time = parseFloat(cells[1].firstChild.value);
+        caption.time = parseFloat($cells[1].firstChild.value);
         caption.break_after = false;
         
         captionArr.push(caption);
         order++;
-    }
+    });
     
     return {
         'mediaType': media,
         'refId': refId,
         'title': title,
         'author': author,
+        'description': description,
         'start': startTime,
         'capLabel': capLabel,
         'captions': JSON.stringify(captionArr),
@@ -91,7 +90,9 @@ function getAllData(){
 // Scroll table when marking caption times
 function scroll(ele){
     var container = $('.table-container');
-    console.log("eleOffsetTop: ", ele.offset().top, " , conOffsetTop: ", container.offset().top, " , conScrollTop: ", container.scrollTop());
+    // console.log("eleOffsetTop: ", ele.offset().top, 
+    //             " , conOffsetTop: ", container.offset().top, 
+    //             " , conScrollTop: ", container.scrollTop());
     container.animate({
         scrollTop: ele.offset().top - container.offset().top + container.scrollTop() - 94
     });
@@ -100,16 +101,13 @@ function scroll(ele){
 $( window ).load( function() {
     
     // Get Youtube API script
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    var $tag = $("<script>", {src: "https://www.youtube.com/iframe_api"});
+    $("script:first").before($tag);
     
     // After "Load Source" button is clicked, load YouTube video
     $('#source-load').click(function () {
         var src = $('#source-input').val();
         videoId = getCodeFromUrl(src);
-        
         initPlayer(videoId);
     });
     
@@ -118,56 +116,45 @@ $( window ).load( function() {
         var text = $('#captions-textarea').val();
         var captionArr = text.split('\n');
         
-        var table = $('#captions-table');
+        var $table = $('#captions-table');
         $("#captions-tbody").empty();
         $('.table-container').removeClass("hide");
         
         for(var i=0; i<captionArr.length; i++){
-            var cap = captionArr[i];
-            var newRow = document.createElement('tr');
+            var cap = captionArr[i].trim();
+            var $newRow = $("<tr>"); 
             
-            var td1 = document.createElement('td');
-            td1.className = "col-sm-9"
-            var td2 = document.createElement('td');
-            td2.className = "col-sm-2 col-mark"
-            var td3 = document.createElement('td');
-            td3.className = "col-sm-1"
+            // Create table data elements
+            var $td1 = $("<td>", {class: "col-sm-9"});
+            var $td2 = $("<td>", {class: "col-sm-2 col-mark"});
+            var $td3 = $("<td>", {class: "col-sm-1"});
             
+            // If the captions is not a blank line, add text and button elements to row
             if(cap != ""){
-                var td1_input = document.createElement('input');
-                td1_input.type = "text";
-                td1_input.className = "table-input";
-                td1_input.value = captionArr[i];
-                td1.appendChild(td1_input);
-                
-                var td2_input = document.createElement('input');
-                td2_input.type = "number";
-                td2_input.min = "0";
-                td2_input.step = "0.1";
-                td2.appendChild(td2_input);
-                
-                var td3_button = document.createElement('button');
-                td3_button.type = "button";
-                td3_button.className = "btn btn-primary btn-sm timestamp-button";
-                td3_button.textContent = "Set";
-                td3_button.addEventListener('click', function(){
-                    var _this = $(this);
-                    var trow = _this.closest('tr');
-                    var timestamp = trow.find('td')[1].firstChild;
-                    timestamp.value= Math.floor(player.getCurrentTime() * 10) / 10;
-                    _this.addClass("btn-success");
-                    scroll(_this);
-                });
-                td3.appendChild(td3_button);
+                $("<input>", {type: "text", class: "table-input", value: captionArr[i]}).appendTo($td1);
+                $("<input>", {type: "number", min: "0", step: "0.1"}).appendTo($td2);
+                $("<button>", {    type: "button", 
+                                 class:"btn btn-primary btn-sm timestamp-button", 
+                                 text: "Set",
+                                 click: function(){
+                                     var $this = $(this);
+                                     var $trow = $this.closest('tr');
+                                     var $timestamp =$trow.find('td')[1].firstChild;
+                                     $timestamp.value= Math.floor(player.getCurrentTime() * 10) / 10;
+                                     $this.addClass("btn-success");
+                                     scroll($this);
+                                 }
+                            }).appendTo($td3);
             }else{
-                newRow.className = "grey";
+                $newRow.addClass("grey");
             }
             
-            newRow.appendChild(td1);
-            newRow.appendChild(td2);
-            newRow.appendChild(td3);
-            
-            table.append(newRow);
+            //Append elements to new row, and new row to caption table
+            $newRow.append($td1)
+                   .append($td2)
+                   .append($td3)
+                   .appendTo($table);
+
         }
     });
     
@@ -190,7 +177,7 @@ $( window ).load( function() {
         });
         
         var data = getAllData();
-        console.log(data);
+        // console.log(data);
         
         $.ajax({
             url : "/caption_maker/submit_captions/",

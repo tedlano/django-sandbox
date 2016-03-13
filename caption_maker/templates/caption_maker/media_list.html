@@ -5,10 +5,12 @@
 {% block content %}
 <h1>List of All Captioned Videos</h1>
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <td>Title</td>
+            <td>Author</td>
+            <td>Description</td>
         </tr>
     </thead>
     <tbody>
@@ -19,10 +21,19 @@
                     {{ media.title }}
                 </a>
             </td>
+            <td>
+                {{ media.author }}
+            </td>
+            <td>
+                {{ media.description }}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<br/>
+<br/>
+<a href="{% url 'caption_maker:create_new' %}">Create Your Own!</a>
 
 
 {% endblock %}

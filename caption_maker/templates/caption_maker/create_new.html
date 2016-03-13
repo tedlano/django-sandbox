@@ -12,11 +12,10 @@
 <div class="row">
   <div class="col-md-9 center">
     
-    <h1>Step 1: Find YouTube Source Video, Review Details</h1>
     <div class="panel panel-primary">
-      <!--<div class="panel-heading">-->
-      <!--  <h2 class="panel-title">Step 1: Find YouTube Source Video, Review Details</h2>-->
-      <!--</div>-->
+      <div class="panel-heading">
+        <h2 class="panel-title">Step 1: Find YouTube Source Video, Review Details</h2>
+      </div>
 
       <div class="panel-body">
         <p>Enter YouTube URL and click "Load Source" to get video.  Enter in as many details as you want, and proceed to Step 2.</p>
@@ -60,28 +59,68 @@
 
     <br/>
     
-    <h1>Step 2: Enter Captions</h1>
     <div class="panel panel-primary">
-      <!--<div class="panel-heading">-->
-      <!--  <h2 class="panel-title">Step 2: Enter Captions</h2>-->
-      <!--</div>-->
+      <div class="panel-heading">
+        <h2 class="panel-title">Step 2: Enter Captions</h2>
+      </div>
 
       <div class="panel-body">
-        <p>Create a label for your captions and then enter or paste captions in text area (broken up by line)</p>
+        <p>Create a label for your captions and then enter or paste captions in text area (broken up by line).  All primary and secondary captions must have the same number of lines.</p>
         <div class="row">
-          <form class="form-horizontal">
-            <div class="form-group required">
-              <label for="captions-label" class="col-sm-3 control-label">Caption Label </label>
-              <div class="col-sm-3">
-                <input type="text" id="captions-label" class="form-control" placeholder="eg: English, Chinese, etc."/>
+          <form id="captions-form" class="form-horizontal">
+            
+            <div class="captions-block">
+              <div class="form-group required">
+                <label for="captions-label" class="col-sm-3 control-label">Primary Caption Label </label>
+                <div class="col-sm-3">
+                  <input type="text" id="captions-label" class="form-control captions-label" placeholder="eg: English, Chinese, etc."/>
+                </div>
               </div>
+              <div class="form-group required">
+                <label for="captions-textarea" class="col-sm-3 control-label">Primary Captions </label>
+                <div class="col-sm-8">
+                  <textarea id="captions-textarea" class="form-control captions-textarea" placeholder="Enter / Paste captions here..." rows="10"></textarea>
+                </div>
+              </div>
+              <hr/>
+              
+              <!-- Secondary captions are appended here-->
+              
             </div>
-            <div class="form-group required">
-              <label for="captions-textarea" class="col-sm-3 control-label">Captions </label>
+            
+            <!--<div class="captions-block hide">-->
+            <!--  <div class="form-group required">-->
+            <!--    <label for="captions-label" class="col-sm-3 control-label">Secondary Caption Label </label>-->
+            <!--    <div class="col-sm-3">-->
+            <!--      <input type="text" id="captions-label" class="form-control captions-label" placeholder="eg: English, Chinese, etc."/>-->
+            <!--    </div>-->
+            <!--  </div>-->
+            <!--  <div class="form-group required">-->
+            <!--    <label for="captions-textarea" class="col-sm-3 control-label">Secondary Captions </label>-->
+            <!--    <div class="col-sm-8">-->
+            <!--      <textarea id="captions-textarea" class="form-control captions-textarea" placeholder="Enter / Paste captions here..." rows="10"></textarea>-->
+            <!--    </div>-->
+            <!--  </div>-->
+              <!--<div class="form-group">-->
+              <!--  <label for="captions-remove" class="col-sm-3 control-label"></label>-->
+              <!--  <div class="col-sm-8">-->
+              <!--    <button type="button" id="captions-remove" class="btn btn-danger">-->
+              <!--      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Remove Secondary Captions-->
+              <!--    </button>-->
+              <!--  </div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<hr/>-->
+            
+            <div class="form-group">
+              <label for="captions-add" class="col-sm-3 control-label"></label>
               <div class="col-sm-8">
-                <textarea id="captions-textarea" class="form-control" placeholder="Enter / Paste captions here..." rows="10"></textarea>
+                <button type="button" id="captions-add" class="btn btn-success">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Secondary Captions (Optional)
+                </button>
               </div>
             </div>
+            
             <div class="form-group">
               <label for="captions-load" class="col-sm-3 control-label"></label>
               <div class="col-sm-8">
@@ -94,11 +133,11 @@
     </div>
 
     <br/>
-    <h1>Step 3: Set Caption Timestamps</h1>
+
     <div class="panel panel-primary">
-      <!--<div class="panel-heading">-->
-      <!--  <h2 class="panel-title">Step 3: Set Caption Timestamps</h2>-->
-      <!--</div>-->
+      <div class="panel-heading">
+        <h2 class="panel-title">Step 3: Set Caption Timestamps</h2>
+      </div>
 
       <div class="panel-body">
         <p>Play the YouTube video and set when you want your captions to 
@@ -148,13 +187,15 @@
     
     <br/>
 
-    <h1>Step 4: Review and Save</h1>
-      <div class="panel panel-primary">
-        <div class="panel-body">
-          <p>Review everything and when you're statisfied, click "Submit Captions"</p>
-          <button type="button" id="captions-submit" class="btb btn-primary">Submit Captions</button>
-        </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h2 class="panel-title">Step 4: Review and Submit</h2>
       </div>
+      <div class="panel-body">
+        <p>Review everything and when you're satisfied, click "Submit Captions"</p>
+        <button type="button" id="captions-submit" class="btn btn-primary">Submit Captions</button>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

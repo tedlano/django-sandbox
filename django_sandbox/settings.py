@@ -82,7 +82,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'djangosandbox',
+    #     'USER': 'postgres',
+    #     'HOST': 'localhost',
+    #     'USER': 'ted',
+    #     'PASSWORD': 'passw0rd',
+    #     'PORT': '',
+    # }
 }
 
 

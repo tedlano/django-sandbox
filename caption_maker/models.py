@@ -7,7 +7,7 @@ class Media(models.Model):
     media_type = models.CharField(max_length = 8)
     reference_id = models.CharField(max_length = 32)
     title = models.CharField(max_length=255)
-    author = models.CharField(null=True, max_length=6)
+    author = models.CharField(null=True, max_length=32)
     description = models.TextField(null=True)
     start_time = models.DecimalField(null=True, max_digits=6, decimal_places=1)
     end_time = models.DecimalField(null=True, max_digits=6, decimal_places=1)
@@ -18,31 +18,31 @@ class Media(models.Model):
         ordering = ['title',]
     
     def __unicode__(self):
-        return self.title
+        return unicode(self.title) or u'no title'
 
 
-class Caption(models.Model):
+class CaptionLine(models.Model):
     media = models.ForeignKey(Media)
-    label = models.CharField(max_length=32)
+    mark_time = models.DecimalField(max_digits=6, decimal_places=1)
+    break_after = models.BooleanField(default=False)
     order = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         ordering = ['order',]
-        
+    
     def __unicode__(self):
-        return self.label
+        return unicode(self.order) or u'no order'
 
-        
-class CaptionLine(models.Model):
-    caption = models.ForeignKey(Caption)
-    order = models.IntegerField(default=0)
-    mark_time = models.DecimalField(max_digits=6, decimal_places=1)
+
+class Caption(models.Model):
+    caption_line = models.ForeignKey(CaptionLine)
+    label = models.CharField(max_length=32)
     text = models.CharField(max_length=256)
-    break_after = models.BooleanField(default=False)
+    order = models.IntegerField(default=1)
     
     class Meta:
-        ordering = ['order',]
-        
+        ordering = ['label', 'order',]
+    
     def __unicode__(self):
-        return self.text
+        return unicode(self.text) or u'no caption text'
