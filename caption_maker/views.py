@@ -25,9 +25,9 @@ def media_list(request):
 def submit_captions(request):
     if request.method == 'POST':
         data = request.POST
-
         media = Media(media_type=data['mediaType'], reference_id=data['refId'], title=data[
-                      'title'], author=data['author'], description=data['description'])
+                      'title'], author=data['author'], description=data['description'],
+                      start_time=data['start']) #end_time not working!!
         media.save()
 
         capList = re.findall(r'\{([^}]*)\}', data['captions'])
@@ -49,18 +49,18 @@ def submit_captions(request):
 
 
 def media_detail(request, media_pk):
-    media = get_object_or_404(Media, pk=media_pk)
-    captionLines = CaptionLine.objects.filter(media_id=media_pk)
-    print(captionLines)
-    timeList = []
-
-    for capLine in captionLines:
-        timeList.append(float(capLine.mark_time))
-
-    print(timeList)
-    context = {
-        'media': media,
-        'captionLines': captionLines,
-        'timeList': timeList
-    }
+    if request.method == 'GET':
+        media = get_object_or_404(Media, pk=media_pk)
+        captionLines = CaptionLine.objects.filter(media_id=media_pk)
+        timeList = []
+    
+        for capLine in captionLines:
+            timeList.append(float(capLine.mark_time))
+    
+        context = {
+            'media': media,
+            'captionLines': captionLines,
+            'timeList': timeList
+        }
+    
     return render(request, 'caption_maker/media_detail.html', context)

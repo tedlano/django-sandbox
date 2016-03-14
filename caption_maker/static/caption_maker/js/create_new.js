@@ -50,6 +50,7 @@ function getAllData(){
     var description = $('#source-description').val();
     var capLabel = $('#captions-label').val();
     var startTime = $('#source-start').val();
+    var endTime = $('#source-end').val();
     var order = 1;
     var skipped = 1;
     var labelArr = [];
@@ -89,6 +90,7 @@ function getAllData(){
         'author': author,
         'description': description,
         'start': startTime,
+        'end': endTime,
         'capLabel': capLabel,
         'captions': JSON.stringify(captionArr),
         'captionLines': JSON.stringify(captionLineArr),
@@ -126,17 +128,13 @@ $( window ).load( function() {
         var html = $("#captions-template").html();
         var $clone = $(html);
         
+        // When "Remove Secondary Captions" button is clicked, remove div
         $clone.find('#captions-remove').click( function (){
             this.closest(".captions-block").remove();
         });
     
         $('.captions-block:last').after($clone);
     });
-    
-    // // When "Remove Secondary Captions" button is clicked, remove div
-    // $('#captions-remove').click(function () {
-    //     this.closest("captions-block").remove();
-    // })
     
     // When "Load Captions" button is clicked, separate captions by line and create table
     $('#captions-load').click(function () {

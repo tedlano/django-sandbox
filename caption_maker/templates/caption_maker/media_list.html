@@ -6,34 +6,36 @@
 <h1>List of All Captioned Videos</h1>
 
 <table class="table">
-    <thead>
-        <tr>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Description</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for media in media_list %}
-        <tr>
-            <td>
-                <a href="{% url 'caption_maker:media_detail' media_pk=media.pk %}">
-                    {{ media.title }}
-                </a>
-            </td>
-            <td>
-                {{ media.author }}
-            </td>
-            <td>
-                {{ media.description }}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <td>Title</td>
+      <td>Author</td>
+      <td>Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for media in media_list %}
+    <tr>
+      <td>
+        <a href="{% url 'caption_maker:media_detail' media_pk=media.pk %}">
+          {{ media.title }}
+        </a>
+      </td>
+      <td>
+        {{ media.author }}
+      </td>
+      <td>
+        {{ media.description }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
-<br/>
-<br/>
-<a href="{% url 'caption_maker:create_new' %}">Create Your Own!</a>
-
+<br/><br/>
+<a href="{% url 'caption_maker:create_new' %}">
+  <button type="button" id="captions-add" class="btn btn-success">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Your Own!
+  </button>
+</a>
 
 {% endblock %}
