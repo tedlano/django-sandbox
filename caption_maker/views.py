@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Media, Caption, CaptionLine
-import json
-import re
+import json, re
 
 
 def home(request):
@@ -27,20 +26,25 @@ def submit_captions(request):
     if request.method == 'POST':
         data = request.POST
 
-        media = Media(media_type=data['mediaType'], reference_id=data['refId'], title=data['title'], author=data['author'], description=data['description'])
+        media = Media(media_type=data['mediaType'], reference_id=data['refId'], title=data[
+                      'title'], author=data['author'], description=data['description'])
         media.save()
 
         capList = re.findall(r'\{([^}]*)\}', data['captions'])
-        
-        for cap in capList:
+        capLines = json.loads(data['captionLines'])
+
+        for idx1, cap in enumerate(capList):
             c = json.loads("{" + cap + "}")
-            
-            captionLine = CaptionLine(media=media, mark_time=c['time'],  order=c['order'], break_after=c['break_after'])
+
+            captionLine = CaptionLine(media=media, mark_time=c['time'],  order=c[
+                                      'order'], break_after=c['break_after'])
             captionLine.save()
-            
-            caption = Caption(caption_line=captionLine, order=1, label=data['capLabel'], text=c['text'])
-            caption.save()
-    
+
+            for idx2, key in enumerate(capLines):
+                caption = Caption(caption_line=captionLine,
+                                  order=idx2, label=key, text=capLines[key][idx1])
+                caption.save()
+
     return HttpResponse(request)
 
 

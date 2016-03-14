@@ -24,17 +24,16 @@
                     
                     {% for capLine in captionLines %}
                         {% for cap in capLine.caption_set.all %}
-                            <tr id="primary-{{ capLine.order }}" class="primary {{ cap.label|lower }}">
+                            <tr class="{{ cap.label|lower }} caption line-{{ capLine.order }}">
                                 <td>
                                     {{ cap.text }}
                                 </td>
                             </tr>
-                        
-                            {% if capLine.break_after %}
-                                <tr><td> &nbsp; </td></tr>
-                            {% endif %}
-                        
                         {% endfor %}
+                        
+                        {% if capLine.break_after %}
+                            <tr><td> &nbsp; </td></tr>
+                        {% endif %}
                         
                     {% endfor %}
                     

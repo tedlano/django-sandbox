@@ -42,7 +42,7 @@ function scroll(ele){
 
 // Highlight active captions, remove highlights from inactive ones
 function highlightLines(ele){
-    $('.primary').removeClass('highlight');
+    $('.caption').removeClass('highlight');
     ele.addClass('highlight');
 }
 
@@ -51,7 +51,7 @@ function findActiveCaption(){
     var t = player.getCurrentTime();
 
     if (t > timeArr[tIndex]){
-        var ele = $("#primary-" + ++tIndex);
+        var ele = $(".line-" + ++tIndex);
         highlightLines(ele);
         scroll(ele);
     }

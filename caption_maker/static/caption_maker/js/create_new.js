@@ -1,6 +1,7 @@
 var player;
 var videoId;
 var csrftoken = getCookie('csrftoken');
+var captionLineArr = {};
 
 function getCodeFromUrl(url){
     var video_id = url.split('v=')[1];
@@ -51,23 +52,30 @@ function getAllData(){
     var startTime = $('#source-start').val();
     var order = 1;
     var skipped = 1;
+    var labelArr = [];
     var captionArr = [];
+    
+    // Get all caption labels
+    $('.captions-label').each(function (i) {
+        var label = $(this).val();
+        labelArr.push(label);
+    })
     
     // Loop through all caption table rows and create caption objects
     $('#captions-tbody').children().each(function (i) {
-        var $cells = this.children;
+        var cells = this.children;
         var caption = {};
         
-        if(!$cells[0].firstChild){
+        if(!cells[0].firstChild){
             captionArr[i-skipped].break_after = true;
             skipped++;
             return;
         }
         
-        var captionText = $cells[0].firstChild.value;
+        //var captionText = cells[0].firstChild.value;
         caption.order = order;
-        caption.text = captionText;
-        caption.time = parseFloat($cells[1].firstChild.value);
+        //caption.text = captionText;
+        caption.time = parseFloat(cells[1].firstChild.value);
         caption.break_after = false;
         
         captionArr.push(caption);
@@ -83,6 +91,8 @@ function getAllData(){
         'start': startTime,
         'capLabel': capLabel,
         'captions': JSON.stringify(captionArr),
+        'captionLines': JSON.stringify(captionLineArr),
+        'labels': labelArr,
         'csrfmiddlewaretoken': csrftoken
     };
 }
@@ -104,24 +114,52 @@ $( window ).load( function() {
     var $tag = $("<script>", {src: "https://www.youtube.com/iframe_api"});
     $("script:first").before($tag);
     
-    // After "Load Source" button is clicked, load YouTube video
+    // When "Load Source" button is clicked, load YouTube video
     $('#source-load').click(function () {
         var src = $('#source-input').val();
         videoId = getCodeFromUrl(src);
         initPlayer(videoId);
     });
     
-    // After "Load Captions" button is clicked, separate by line and create table
-    $('#captions-load').click(function () {
-        var text = $('#captions-textarea').val();
-        var captionArr = text.split('\n');
+    // When "Add Secondary Captions" button is clicked, add another captions block
+    $('#captions-add').click(function () {
+        var html = $("#captions-template").html();
+        var $clone = $(html);
         
+        $clone.find('#captions-remove').click( function (){
+            this.closest(".captions-block").remove();
+        });
+    
+        $('.captions-block:last').after($clone);
+    });
+    
+    // // When "Remove Secondary Captions" button is clicked, remove div
+    // $('#captions-remove').click(function () {
+    //     this.closest("captions-block").remove();
+    // })
+    
+    // When "Load Captions" button is clicked, separate captions by line and create table
+    $('#captions-load').click(function () {
+        captionLineArr = {};
+        var primaryCaps;
         var $table = $('#captions-table');
+        
         $("#captions-tbody").empty();
         $('.table-container').removeClass("hide");
         
-        for(var i=0; i<captionArr.length; i++){
-            var cap = captionArr[i].trim();
+        $('.captions-block').each(function(i) {
+            var label = $(this).find(".captions-label:first").val();
+            var captions = $(this).find(".captions-textarea:first").val();
+            var capArr = captions.split('\n');
+            if(i==0) primaryCaps = capArr;
+            
+            captionLineArr[label] = capArr.filter(Boolean);
+            
+        });
+    
+        for(var i=0; i<primaryCaps.length; i++){
+
+            var cap = primaryCaps[i].trim();
             var $newRow = $("<tr>"); 
             
             // Create table data elements
@@ -131,7 +169,7 @@ $( window ).load( function() {
             
             // If the captions is not a blank line, add text and button elements to row
             if(cap != ""){
-                $("<input>", {type: "text", class: "table-input", value: captionArr[i]}).appendTo($td1);
+                $("<input>", {type: "text", class: "table-input", value: cap}).appendTo($td1);
                 $("<input>", {type: "number", min: "0", step: "0.1"}).appendTo($td2);
                 $("<button>", {    type: "button", 
                                  class:"btn btn-primary btn-sm timestamp-button", 

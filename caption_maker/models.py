@@ -32,7 +32,7 @@ class CaptionLine(models.Model):
         ordering = ['order',]
     
     def __unicode__(self):
-        return unicode(self.order) or u'no order'
+        return unicode(self.order) + u' (' + unicode(self.mark_time) + u')' or u'no order'
 
 
 class Caption(models.Model):
