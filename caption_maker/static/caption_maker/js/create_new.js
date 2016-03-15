@@ -73,9 +73,7 @@ function getAllData(){
             return;
         }
         
-        //var captionText = cells[0].firstChild.value;
         caption.order = order;
-        //caption.text = captionText;
         caption.time = parseFloat(cells[1].firstChild.value);
         caption.break_after = false;
         
@@ -89,8 +87,8 @@ function getAllData(){
         'title': title,
         'author': author,
         'description': description,
-        'start': startTime,
-        'end': endTime,
+        'start_time': startTime,
+        'end_time': endTime,
         'capLabel': capLabel,
         'captions': JSON.stringify(captionArr),
         'captionLines': JSON.stringify(captionLineArr),
@@ -167,9 +165,9 @@ $( window ).load( function() {
             
             // If the captions is not a blank line, add text and button elements to row
             if(cap != ""){
-                $("<input>", {type: "text", class: "table-input", value: cap}).appendTo($td1);
+                $("<input>", {type: "text", class: "caption-input", value: cap}).appendTo($td1);
                 $("<input>", {type: "number", min: "0", step: "0.1"}).appendTo($td2);
-                $("<button>", {    type: "button", 
+                $("<button>", {  type: "button", 
                                  class:"btn btn-primary btn-sm timestamp-button", 
                                  text: "Set",
                                  click: function(){
@@ -220,9 +218,8 @@ $( window ).load( function() {
             type : "POST",
             data : data,
 
-            // handle a successful response
             success : function(json) {
-                console.log("success"); // another sanity check
+                window.location = json.url;
             },
     
             // handle a non-successful response

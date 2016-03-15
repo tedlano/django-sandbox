@@ -5,7 +5,12 @@
 
 .table-input{
     width: 100%;
-    border: 2px solid;
+    border: 1px solid;
+}
+
+.caption-input{
+    width: 100%;
+    border: none;
 }
 
 .grey{

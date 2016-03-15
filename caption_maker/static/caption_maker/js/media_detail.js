@@ -48,9 +48,11 @@ function findActiveCaption(){
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: videoId,
-        playerVars: { 'start': startTime, 'end': endTime},
-        iv_load_policy: 3,
-        modestbranding: 1,
+        playerVars: { 'start': startTime, 
+                      'end': endTime,
+                      'iv_load_policy': 3,
+                      'modestbranding': 1
+        },
         
         events: {
             'onStateChange': onPlayerStateChange
@@ -75,22 +77,29 @@ function onPlayerStateChange(event) {
 
 $( window ).load( function() {
     
-    // Toggle pinyin display
-    // $('.py-toggle').click( function () {
-    //     var _this = $(this);
-    //     $('.py-toggle').removeClass('active');
-    //     _this.addClass('active');
-        
-    //     if(_this.context.id == 'py-show'){
-    //         $('.pinyin').show();
-    //     }else{
-    //         $('.pinyin').hide();
-    //     }
-    // });
-
     // Get Youtube API script
     var $tag = $("<script>", {src: "https://www.youtube.com/iframe_api"});
     $("script:first").before($tag);
+    
+    // Add caption toggle buttons
+    for(var i=0; i<labelList.length; i++){
+        $("<button>", { class: "btn btn-success btn-sm",
+                        name: labelList[i],
+                        text: labelList[i],
+                        click: function(){
+                            if($(this).hasClass("btn-success")){
+                                var thisClass = "." + $(this).attr('name').toLowerCase();
+                                $(this).removeClass("btn-success").addClass("btn-primary");
+                                $(thisClass).hide(); //a bit hacky
+                                
+                            }else{
+                                var thisClass = "." + $(this).attr('name').toLowerCase();
+                                $(this).removeClass("btn-primary").addClass("btn-success");
+                                $(thisClass).show(); //a bit hacky
+                            }
+                        }
+                }).appendTo($('#toggle-buttons'));
+    }
     
 });
 

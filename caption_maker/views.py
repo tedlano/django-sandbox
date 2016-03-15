@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Media, Caption, CaptionLine
 import json, re
 
@@ -27,7 +27,7 @@ def submit_captions(request):
         data = request.POST
         media = Media(media_type=data['mediaType'], reference_id=data['refId'], title=data[
                       'title'], author=data['author'], description=data['description'],
-                      start_time=data['start']) #end_time not working!!
+                      start_time=data['start_time'], end_time=data['end_time'])
         media.save()
 
         capList = re.findall(r'\{([^}]*)\}', data['captions'])
@@ -44,8 +44,11 @@ def submit_captions(request):
                 caption = Caption(caption_line=captionLine,
                                   order=idx2, label=key, text=capLines[key][idx1])
                 caption.save()
-
-    return HttpResponse(request)
+        
+        response = {
+            'url': '/caption_maker/' + str(media.id)
+        }
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def media_detail(request, media_pk):
@@ -57,10 +60,13 @@ def media_detail(request, media_pk):
         for capLine in captionLines:
             timeList.append(float(capLine.mark_time))
     
+        labelList = list(Caption.objects.filter(caption_line__in=captionLines).values_list('label', flat=True).distinct())
+        print(labelList)
         context = {
             'media': media,
             'captionLines': captionLines,
-            'timeList': timeList
+            'timeList': timeList,
+            'labelList': json.dumps(labelList)
         }
     
     return render(request, 'caption_maker/media_detail.html', context)
