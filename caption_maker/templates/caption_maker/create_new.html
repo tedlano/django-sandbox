@@ -11,7 +11,6 @@
 
 <div class="row">
   <div class="col-md-9 center">
-    
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h2 class="panel-title">Step 1: Find YouTube Source Video, Review Details</h2>
@@ -26,7 +25,7 @@
             <div class="col-sm-8">
               <div class="input-group">
                 <span class="input-group-btn">
-                  <button type="button" id= "source-load" class="btn btn-primary">Load Source</button>
+                  <button type="button" id="source-load" class="btn btn-primary">Load Source</button>
                 </span>
                 <input type="text" class="form-control" id="source-input" placeholder="Enter / Paste Source URL here">
               </div>
@@ -65,7 +64,12 @@
       </div>
 
       <div class="panel-body">
-        <p>Create a label for your captions and then enter or paste captions in text area (broken up by line).  All primary and secondary captions must have the same number of lines.</p>
+        <p>
+          Create a label for your captions and then enter or paste captions in text area 
+          (broken up by line).  All primary and secondary captions must have the same number 
+          of lines.  Blank lines will be treated as spacers and will not have timing marks 
+          associated with them.
+        </p>
         <div class="row">
           <form id="captions-form" class="form-horizontal">
             
@@ -130,7 +134,9 @@
         </div>
       </div>
     </div>
-
+    <div id="caption-lines-alert" class="alert alert-danger hide">
+      <strong>Error!</strong> Your captions don't all have the same number of lines!
+    </div>
     <br/>
 
     <div class="panel panel-primary">
@@ -139,14 +145,18 @@
       </div>
 
       <div class="panel-body">
-        <p>Play the YouTube video and set when you want your captions to 
+        <p>
+          Play the YouTube video and set when you want your captions to 
           be highlighted.  Captions will be highlighted at the mark, and 
-          the highlight will move down to the next one at the next mark.
+          the highlight will move down to the next one at the next mark.  Mark 
+          the start and end times of the video if you wish to skip parts of the 
+          beginning and/or end the video early.
         </p>
         <div class="row">
           <div id="player" class="video col-sm-12 text-center">
             <br/><br/><br/><br/>No Video Loaded<br/><br/><br/><br/>
           </div>
+          <p class="text-center"><b>Current Player Mark: </b><span id='player-counter'>0.0</span></p>
           <form class="form-inline text-center">
             <div id="start-stop-marks" class="form-group">
               <div class="input-group">
@@ -163,6 +173,12 @@
               </div>
             </div>
           </form>
+          <br/>
+          <div class="player-options text-center">
+            <button type="button" id="player-rewind" class="btn btn-primary">
+                <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>&nbsp;&nbsp;3 sec
+            </button>
+          </div>
           <br/>
           <div class="col-sm-10 center">
             <div class="row">

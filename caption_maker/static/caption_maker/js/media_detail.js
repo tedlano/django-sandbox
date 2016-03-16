@@ -1,8 +1,15 @@
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
 var player;
 var interval;
 var tIndex = 0;
+
+function getCaptionLabel(label){
+    switch (label){
+        case "Chinese":
+            return "中文";
+        default:
+            return label;
+    }
+}
 
 function findTimeIndex(t){
     var mid;
@@ -83,9 +90,10 @@ $( window ).load( function() {
     
     // Add caption toggle buttons
     for(var i=0; i<labelList.length; i++){
+        var label = getCaptionLabel(labelList[i]);
         $("<button>", { class: "btn btn-success btn-sm",
-                        name: labelList[i],
-                        text: labelList[i],
+                        name: label,
+                        text: label,
                         click: function(){
                             if($(this).hasClass("btn-success")){
                                 var thisClass = "." + $(this).attr('name').toLowerCase();

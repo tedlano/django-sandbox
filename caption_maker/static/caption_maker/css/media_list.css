@@ -1,0 +1,7 @@
+.media-list-header h2, button {
+    display: inline;
+}
+
+.media-list-header button {
+    float: right;
+}

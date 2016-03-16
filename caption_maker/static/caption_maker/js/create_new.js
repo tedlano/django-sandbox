@@ -1,5 +1,7 @@
 var player;
 var videoId;
+var interval;
+var currentTime;
 var csrftoken = getCookie('csrftoken');
 var captionLineArr = {};
 
@@ -14,6 +16,12 @@ function getCodeFromUrl(url){
     return video_id;
 }
 
+function updateCounter(useApiBool){
+    if(useApiBool) currentTime = player.getCurrentTime();
+    else currentTime+= 0.1;
+    $('#player-counter').html(currentTime.toFixed(1));
+}
+
 function onPlayerReady(){
     // Populate Attributes from video
     var videoData = player.getVideoData();
@@ -22,6 +30,20 @@ function onPlayerReady(){
     
     //Clear "No Video Loaded" message
      $('#player').html("");
+}
+
+// Trigger whenever player state changes (Playing, Paused, Buffering, etc)
+function onPlayerStateChange(event) {
+    
+    // If player is playing, continually check active captions
+    if (event.data == YT.PlayerState.PLAYING) {
+        updateCounter(true);
+        interval = setInterval(updateCounter, 100, false);
+        
+    // If player is not playing, stop checking for active captions
+    } else {
+        clearInterval(interval);
+    }
 }
 
 function onPlayerError(){
@@ -37,6 +59,7 @@ function initPlayer(vidId) {
         
         events: {
             'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
             'onError': onPlayerError,
         }
     });
@@ -119,6 +142,13 @@ $( window ).load( function() {
         var src = $('#source-input').val();
         videoId = getCodeFromUrl(src);
         initPlayer(videoId);
+        //$('.panel:first').removeClass("panel-primary").addClass("panel-success");
+    });
+    
+    $('#source-input').keypress(function(e) {
+        if(e.which == 13) {
+            $('#source-load').click();
+        }
     });
     
     // When "Add Secondary Captions" button is clicked, add another captions block
@@ -138,20 +168,38 @@ $( window ).load( function() {
     $('#captions-load').click(function () {
         captionLineArr = {};
         var primaryCaps;
+        var error = false;
+        var capLen = -1;
         var $table = $('#captions-table');
         
         $("#captions-tbody").empty();
         $('.table-container').removeClass("hide");
+        $("#caption-lines-alert").addClass("hide");
         
         $('.captions-block').each(function(i) {
             var label = $(this).find(".captions-label:first").val();
             var captions = $(this).find(".captions-textarea:first").val();
-            var capArr = captions.split('\n');
+            var capArr = captions.trim().split('\n');
+            
+            // All caption blocks should have the same number of lines
+            if(capLen != -1){
+                if (capArr.length != capLen) {
+                    $("#caption-lines-alert").removeClass("hide");
+                    error = true;
+                    return false;
+                }
+            } else {
+                capLen = capArr.length;
+            }
+            
+            // First caption section are the primary captions
             if(i==0) primaryCaps = capArr;
             
             captionLineArr[label] = capArr.filter(Boolean);
             
         });
+        
+        if(error) return false;
     
         for(var i=0; i<primaryCaps.length; i++){
 
@@ -174,7 +222,7 @@ $( window ).load( function() {
                                      var $this = $(this);
                                      var $trow = $this.closest('tr');
                                      var $timestamp =$trow.find('td')[1].firstChild;
-                                     $timestamp.value= Math.floor(player.getCurrentTime() * 10) / 10;
+                                     $timestamp.value= player.getCurrentTime().toFixed(1);
                                      $this.addClass("btn-success");
                                      scroll($this);
                                  }
@@ -198,8 +246,18 @@ $( window ).load( function() {
             .val(Math.floor(player.getCurrentTime() * 10) / 10);
     });
     
+    // Rewind player 3 seconds when button clicked
+    $('#player-rewind').click(function (){
+        var seekSeconds = player.getCurrentTime() - 3;
+        player.seekTo(seekSeconds);
+    });
+    
+    $(document).ajaxStop($.unblockUI); 
+    
     // Submit captions to DB
     $('#captions-submit').click(function () {
+        
+        $.blockUI({ message: '<h2><img src="/static/img/loading.gif" /> Submitting Captions...</h2>' }); 
         
         // Setup AJAX so that csrf token is sent when invoked
         $.ajaxSetup({
