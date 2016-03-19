@@ -69,7 +69,6 @@ function onYouTubeIframeAPIReady() {
 
 // Trigger whenever player state changes (Playing, Paused, Buffering, etc)
 function onPlayerStateChange(event) {
-    
     // If player is playing, continually check active captions
     if (event.data == YT.PlayerState.PLAYING) {
         tIndex = findTimeIndex(player.getCurrentTime());
@@ -90,10 +89,10 @@ $( window ).load( function() {
     
     // Add caption toggle buttons
     for(var i=0; i<labelList.length; i++){
-        var label = getCaptionLabel(labelList[i]);
+        var label = labelList[i];
         $("<button>", { class: "btn btn-success btn-sm",
                         name: label,
-                        text: label,
+                        text: getCaptionLabel(label),
                         click: function(){
                             if($(this).hasClass("btn-success")){
                                 var thisClass = "." + $(this).attr('name').toLowerCase();

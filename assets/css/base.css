@@ -16,6 +16,10 @@
     margin-bottom: 0px;
 }
 
+.body{
+    padding-bottom: 44px;
+}
+
 footer {
 	width: 100%;
 	position: relative;

@@ -10,13 +10,14 @@
 {% block content %}
 <h2>Summary</h2>
 <p>
-  So basically, I wanted to practice my Chinese by listening to music and then follow along on a 
+  I wanted to practice my Chinese by listening to music and then follow along on a 
   script in order to memorize phrases, sentence structures, characters, etc.  Unfortunately, I hadn't 
   found a good way to do this aside from blankly staring at a word document or a piece of paper while 
   playing the song off of YouTube.  After failing to find chinese songs on YouTube with closed-captioning, 
   I wondered if I could do it myself.  So I made this and now I can, and so can you!  I still have some 
   work to do in order to make the user interface more friendly, but so far this is looking pretty good 
   if I do say so myself.
+  <br/><br/>
 </p>
 <br/>
 <div class="media-list-header">
@@ -33,6 +34,7 @@
       <td>Title</td>
       <td>Author</td>
       <td>Description</td>
+      <td></td><!--Modify Button-->
     </tr>
   </thead>
   <tbody>
@@ -48,6 +50,13 @@
       </td>
       <td>
         {{ media.description }}
+      </td>
+      <td>
+      	<a href="{% url 'caption_maker:modify_media' media_pk=media.pk %}">
+    			<button type="button" class="btn btn-primary caption-modify">
+      			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Modify
+    			</button>
+  			</a>
       </td>
     </tr>
     {% endfor %}

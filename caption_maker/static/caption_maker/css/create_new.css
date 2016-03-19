@@ -30,6 +30,10 @@
     padding-top: 10px;
 }
 
+#mark-delay{
+    width: 70px;
+}
+
 .col-mark input{
     width: 100%;
 }

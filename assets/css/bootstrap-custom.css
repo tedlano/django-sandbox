@@ -16,3 +16,7 @@ h5.panel-title {
 h6.panel-title {
     font-size: x-small
 } 
+
+thead{
+    font-weight: bold;
+}

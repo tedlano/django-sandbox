@@ -11,7 +11,7 @@
   var startTime = "{{ media.start_time }}";
   startTime = (startTime == "None") ? null : Math.floor(Number(startTime));
   var endTime = "{{ media.end_time }}"
-  endTime = (endTime == "None") ? null : Math.floor(Number(endTime));
+  endTime = (endTime == "None") ? null : Math.ceil(Number(endTime));
   var labelList = {{ labelList|safe }};
 </script>
 {% endblock %}

@@ -5,6 +5,16 @@
 
 {% block css %}
 <link type="text/css" href="{% static 'caption_maker/css/create_new.css' %}" rel="stylesheet">
+<script>
+  var action =  "{{ action }}";
+  var videoId = "{{ media.reference_id }}";
+  var mediaPk = "{{ media.pk }}";
+  var timeArr = {{ timeList|safe }};
+  var startTime = "{{ media.start_time }}";
+  startTime = (startTime == "None") ? null : Math.floor(Number(startTime));
+  var endTime = "{{ media.end_time }}"
+  endTime = (endTime == "None") ? null : Math.ceil(Number(endTime));
+</script>
 {% endblock %}
 
 {% block content %}
@@ -27,7 +37,9 @@
                 <span class="input-group-btn">
                   <button type="button" id="source-load" class="btn btn-primary">Load Source</button>
                 </span>
-                <input type="text" class="form-control" id="source-input" placeholder="Enter / Paste Source URL here">
+                <input type="text" class="form-control" id="source-input" placeholder="Enter / Paste Source URL here"
+                  value="{% if media %}https://www.youtube.com/watch?v={{ media.reference_id }}{% endif %}"
+                  {% if media %}disabled{% endif %}/>
               </div>
             </div>
           </div>
@@ -35,21 +47,25 @@
           <div class="form-group required">
             <label for="source-title" class="col-sm-3 control-label">Media Title </label>
             <div class="col-sm-8">
-              <input type="text" id="source-title" class="form-control" placeholder="eg: Smooth Criminal"/>
+              <input type="text" id="source-title" class="form-control" placeholder="eg: Smooth Criminal" 
+                value="{% if media %}{{ media.title }}{% endif %}"/>
             </div>
           </div>
 
           <div class="form-group">
             <label for="source-author" class="col-sm-3 control-label">Author</label>
             <div class="col-sm-8">
-              <input type="text" id="source-author" class="form-control" placeholder="eg: Michael Jackson"/>
+              <input type="text" id="source-author" class="form-control" placeholder="eg: Michael Jackson"
+                value="{% if media %}{{ media.author }}{% endif %}"/>
             </div>
           </div>
 
           <div class="form-group">
             <label for="source-author" class="col-sm-3 control-label">Description</label>
             <div class="col-sm-8">
-              <textarea id="source-description" class="form-control" placeholder="Enter Description Here..." rows="5"></textarea>
+              <textarea id="source-description" class="form-control" placeholder="Enter Description Here..." 
+                rows="5">{% if media %}{{ media.description }}{% endif %}
+              </textarea>
             </div>
           </div>
         </form>
@@ -72,22 +88,54 @@
         </p>
         <div class="row">
           <form id="captions-form" class="form-horizontal">
-            
+
             <div class="captions-block">
               <div class="form-group required">
                 <label for="captions-label" class="col-sm-3 control-label">Primary Caption Label </label>
                 <div class="col-sm-3">
-                  <input type="text" class="form-control captions-label" placeholder="eg: English, Chinese, etc."/>
+                  <input type="text" class="form-control captions-label" placeholder="eg: English, Chinese, etc."
+                    value="{% if media %}{{ captions.0.0.label }}{% endif %}" />
                 </div>
               </div>
               <div class="form-group required">
                 <label for="captions-textarea" class="col-sm-3 control-label">Primary Captions </label>
                 <div class="col-sm-8">
-                  <textarea class="form-control captions-textarea" placeholder="Enter / Paste captions here..." rows="10"></textarea>
+                  <textarea class="form-control captions-textarea" placeholder="Enter / Paste captions here..." 
+                    rows="10">{% if media %}{% for cap in captions.0 %}{{ cap.text }}{% if not forloop.last %}&#13;&#10;{% endif %}{% endfor %}{% endif %}</textarea>
                 </div>
               </div>
               <hr/>
             </div>
+            
+            {% for capLine in captions %}
+            {% if not forloop.first %}
+            <div class="captions-block">
+              <div class="form-group required">
+                <label for="captions-label" class="col-sm-3 control-label">Secondary Caption Label </label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control captions-label" placeholder="eg: English, Chinese, etc."
+                    value="{{ capLine.0.label }}" />
+                </div>
+              </div>
+              <div class="form-group required">
+                <label for="captions-textarea" class="col-sm-3 control-label">Secondary Captions </label>
+                <div class="col-sm-8">
+                  <textarea class="form-control captions-textarea" placeholder="Enter / Paste captions here..." 
+                    rows="10">{% for cap in capLine %}{{ cap.text }}{% if not forloop.last %}&#13;&#10;{% endif %}{% endfor %}</textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="captions-remove" class="col-sm-3 control-label"></label>
+                <div class="col-sm-8">
+                  <button type="button" id="captions-remove" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove Secondary Captions
+                  </button>
+                </div>
+              </div>
+              <hr/>
+            </div>
+            {% endif %}
+            {% endfor %}
             
             <template id="captions-template">
               <div class="captions-block">
@@ -163,22 +211,28 @@
                 <span class="input-group-btn">
                   <button type="button" id= "source-start-button" class="btn btn-primary">Mark Start</button>
                 </span>
-                <input type="number" step="0.1" class="form-control" id="source-start" placeholder="0.0">
+                <input type="number" step="0.1" class="form-control" id="source-start" placeholder="0.0"
+                  value="{% if media %}{{ media.start_time }}{% endif %}"/>
               </div>
               <div class="input-group">
                 <span class="input-group-btn">
                   <button type="button" id= "source-end-button" class="btn btn-primary">Mark End</button>
                 </span>
-                <input type="number" step="0.1" class="form-control" id="source-end" placeholder="0.0">
+                <input type="number" step="0.1" class="form-control" id="source-end" placeholder="0.0"
+                  value="{% if media %}{{ media.end_time }}{% endif %}"/>
               </div>
             </div>
           </form>
           <br/>
-          <div class="player-options text-center">
-            <button type="button" id="player-rewind" class="btn btn-primary">
-                <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>&nbsp;&nbsp;3 sec
-            </button>
-          </div>
+          <form class="form-inline text-center">
+            <div class="player-options text-center">
+              <!--<strong>Mark Delay Correction: </strong>-->
+              <!--<input type="number" step="0.1" class="form-control" id="mark-delay" placeholder="0.0" value="0.2"/>-->
+              <button type="button" id="player-rewind" class="btn btn-primary">
+                  <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>&nbsp;&nbsp;3 sec
+              </button>
+            </div>
+          </form>
           <br/>
           <div class="col-sm-10 center">
             <div class="row">

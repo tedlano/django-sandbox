@@ -1,5 +1,5 @@
 var player;
-var videoId;
+//var videoId;
 var interval;
 var currentTime;
 var csrftoken = getCookie('csrftoken');
@@ -24,12 +24,14 @@ function updateCounter(useApiBool){
 
 function onPlayerReady(){
     // Populate Attributes from video
-    var videoData = player.getVideoData();
-    $('#source-title').val(videoData.title);
-    $('#source-author').val(videoData.author);
-    
+    if(action == 'new'){
+        var videoData = player.getVideoData();
+        $('#source-title').val(videoData.title);
+        $('#source-author').val(videoData.author);
+    }
+
     //Clear "No Video Loaded" message
-     $('#player').html("");
+    $('#player').html("");
 }
 
 // Trigger whenever player state changes (Playing, Paused, Buffering, etc)
@@ -90,6 +92,8 @@ function getAllData(){
         var cells = this.children;
         var caption = {};
         
+        // If the table row is blank, set previous caption's break_after property to true
+        // and then skip this row (Don't create a caption for blank lines)
         if(!cells[0].firstChild){
             captionArr[i-skipped].break_after = true;
             skipped++;
@@ -105,6 +109,8 @@ function getAllData(){
     });
     
     return {
+        'action': action,
+        'media_pk': mediaPk,
         'mediaType': media,
         'refId': refId,
         'title': title,
@@ -131,11 +137,43 @@ function scroll(ele){
     });
 }
 
+function loadYouTubeAPIScript(){
+    var $tag = $("<script>", {  src: "https://www.youtube.com/iframe_api" });
+    // var $tag = $("<script>", {  src: "https://www.youtube.com/iframe_api",
+    //                             onload: function(){
+    //                                 if(action == "modify"){
+    //                                     $('#source-load').click();
+    //                                 }
+    //                             }
+    //                         });
+        
+    $("script:first").before($tag);
+}
+
+function onYouTubeIframeAPIReady() {
+    if(action == "modify"){
+        player = new YT.Player('player', {
+            videoId: videoId,
+            playerVars: { 'start': startTime, 
+                          'end': endTime,
+                          'iv_load_policy': 3,
+                          'modestbranding': 1
+            },
+            
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange,
+                'onError': onPlayerError,
+            }
+        });
+    }
+}
+
 $( window ).load( function() {
     
     // Get Youtube API script
-    var $tag = $("<script>", {src: "https://www.youtube.com/iframe_api"});
-    $("script:first").before($tag);
+    // var $tag = $("<script>", {src: "https://www.youtube.com/iframe_api"});
+    // $("script:first").before($tag);
     
     // When "Load Source" button is clicked, load YouTube video
     $('#source-load').click(function () {
@@ -144,6 +182,8 @@ $( window ).load( function() {
         initPlayer(videoId);
         //$('.panel:first').removeClass("panel-primary").addClass("panel-success");
     });
+    
+    loadYouTubeAPIScript();
     
     $('#source-input').keypress(function(e) {
         if(e.which == 13) {
@@ -201,8 +241,8 @@ $( window ).load( function() {
         
         if(error) return false;
     
+        var idx = 0;
         for(var i=0; i<primaryCaps.length; i++){
-
             var cap = primaryCaps[i].trim();
             var $newRow = $("<tr>"); 
             
@@ -213,16 +253,16 @@ $( window ).load( function() {
             
             // If the captions is not a blank line, add text and button elements to row
             if(cap != ""){
-                $("<input>", {type: "text", class: "caption-input", value: cap}).appendTo($td1);
-                $("<input>", {type: "number", min: "0", step: "0.1"}).appendTo($td2);
+                $("<p>", { class: "caption-text", text: cap}).appendTo($td1);
+                $("<input>", {type: "number", min: "0", step: "0.1", value: timeArr[idx++]}).appendTo($td2);
                 $("<button>", {  type: "button", 
                                  class:"btn btn-primary btn-sm timestamp-button", 
                                  text: "Set",
                                  click: function(){
                                      var $this = $(this);
                                      var $trow = $this.closest('tr');
-                                     var $timestamp =$trow.find('td')[1].firstChild;
-                                     $timestamp.value= player.getCurrentTime().toFixed(1);
+                                     var $timestamp = $trow.find('td')[1].firstChild;
+                                     $timestamp.value = (player.getCurrentTime() - 0.2).toFixed(1);
                                      $this.addClass("btn-success");
                                      scroll($this);
                                  }
@@ -236,9 +276,13 @@ $( window ).load( function() {
                    .append($td2)
                    .append($td3)
                    .appendTo($table);
-
         }
     });
+    
+    // If Modifying Media, populate captions table with mark times
+    if(action == "modify"){
+        $('#captions-load').click();
+    }
     
     // Log start and end times when buttons are clicked
     $('#start-stop-marks button').click(function () {
@@ -287,5 +331,4 @@ $( window ).load( function() {
         });
         
     });
- 
 });
