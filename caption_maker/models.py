@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Media(models.Model):
@@ -13,6 +14,7 @@ class Media(models.Model):
     end_time = models.DecimalField(null=True, max_digits=6, decimal_places=1)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User)
     
     class Meta:
         ordering = ['title',]
@@ -40,7 +42,7 @@ class Caption(models.Model):
     label = models.CharField(max_length=32)
     text = models.CharField(max_length=256)
     order = models.IntegerField(default=1)
-    
+
     class Meta:
         ordering = ['label', 'order',]
     

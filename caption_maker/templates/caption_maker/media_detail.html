@@ -29,7 +29,7 @@
 
           {% for capLine in captionLines %}
           {% for cap in capLine.caption_set.all %}
-          <tr class="{{ cap.label|lower }} caption line-{{ capLine.order }}">
+          <tr class="{{ cap.label|lower }} caption-cell line-{{ capLine.order }}">
             <td>
               {{ cap.text }}
             </td>
@@ -56,5 +56,6 @@
 {% endblock %}
 
 {% block js-foot %}
+<script src="{% static 'caption_maker/js/player.js' %}"></script>
 <script src="{% static 'caption_maker/js/media_detail.js' %}"></script>
 {% endblock %}

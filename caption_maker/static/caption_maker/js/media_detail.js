@@ -11,42 +11,13 @@ function getCaptionLabel(label){
     }
 }
 
-function findTimeIndex(t){
-    var mid;
-    var lo = 0;
-    var hi = timeArr.length - 1;
-    while (hi - lo > 1) {
-        mid = Math.floor ((lo + hi) / 2);
-        if (timeArr[mid] < t) {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-    }
-    return lo;
-}
-
-// Scroll to active captions
-function scroll(ele){
-    var container = $('.lyrics-container');
-    container.animate({
-        scrollTop: ele.offset().top - container.offset().top + container.scrollTop()
-    });
-}
-
-// Highlight active captions, remove highlights from inactive ones
-function highlightLines(ele){
-    $('.caption').removeClass('highlight');
-    ele.addClass('highlight');
-}
-
 // Find which caption is active
 function findActiveCaption(){
     var t = player.getCurrentTime();
 
     if (t > timeArr[tIndex]){
         var ele = $(".line-" + ++tIndex);
-        highlightLines(ele);
+        highlightLines(ele, "caption-cell");
         scroll(ele);
     }
 }
@@ -71,9 +42,9 @@ function onYouTubeIframeAPIReady() {
 function onPlayerStateChange(event) {
     // If player is playing, continually check active captions
     if (event.data == YT.PlayerState.PLAYING) {
-        tIndex = findTimeIndex(player.getCurrentTime());
+        tIndex = findArrIndex(player.getCurrentTime(), timeArr);
         findActiveCaption();
-        interval = setInterval(findActiveCaption, 200);
+        interval = setInterval(findActiveCaption, 100);
         
     // If player is not playing, stop checking for active captions
     } else {
@@ -84,8 +55,7 @@ function onPlayerStateChange(event) {
 $( window ).load( function() {
     
     // Get Youtube API script
-    var $tag = $("<script>", {src: "https://www.youtube.com/iframe_api"});
-    $("script:first").before($tag);
+    loadYouTubeAPIScript();
     
     // Add caption toggle buttons
     for(var i=0; i<labelList.length; i++){

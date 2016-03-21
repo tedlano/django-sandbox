@@ -50,7 +50,7 @@ def modify_media(request, media_pk):
 def media_list(request):
     media_list = Media.objects.all()
     context = {
-        'media_list': media_list
+        'media_list': media_list,
     }
     return render(request, 'caption_maker/media_list.html', context)
 

@@ -34,11 +34,15 @@
     width: 70px;
 }
 
+.highlight{
+    background-color: #fff2a8;
+}
+
 .col-mark input{
     width: 100%;
 }
 
-.table-container{
+.lyrics-container{
     height: 400px;
     overflow-y: scroll;
     overflow-x: hidden;

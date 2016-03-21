@@ -9,7 +9,7 @@
   var action =  "{{ action }}";
   var videoId = "{{ media.reference_id }}";
   var mediaPk = "{{ media.pk }}";
-  var timeArr = {{ timeList|safe }};
+  var timeArr = {% if timeList %}{{timeList | safe}}{% else %} [] {% endif %};
   var startTime = "{{ media.start_time }}";
   startTime = (startTime == "None") ? null : Math.floor(Number(startTime));
   var endTime = "{{ media.end_time }}"
@@ -236,7 +236,7 @@
           <br/>
           <div class="col-sm-10 center">
             <div class="row">
-              <div class="table-container table-input hide">
+              <div class="lyrics-container table-input hide">
                 <table id="captions-table" class="table table-bordered">
                   <thead class="btn-primary">
                     <tr>
@@ -270,5 +270,6 @@
 {% endblock %}
 
 {% block js-foot %}
+<script src="{% static 'caption_maker/js/player.js' %}"></script>
 <script src="{% static 'caption_maker/js/create_new.js' %}"></script>
 {% endblock %}

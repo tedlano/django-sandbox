@@ -2,6 +2,7 @@ var player;
 //var videoId;
 var interval;
 var currentTime;
+var timeIndex = 0;
 var csrftoken = getCookie('csrftoken');
 var captionLineArr = {};
 
@@ -19,7 +20,15 @@ function getCodeFromUrl(url){
 function updateCounter(useApiBool){
     if(useApiBool) currentTime = player.getCurrentTime();
     else currentTime+= 0.1;
+    
+    // Update the on-screen counter
     $('#player-counter').html(currentTime.toFixed(1));
+    
+    if(currentTime > timeArr[timeIndex]){
+        var ele = $("#caption-cell-" + ++timeIndex);
+        highlightLines(ele, "caption-cell");
+        //console.log("index: ", (timeIndex), " currentTime: ", currentTime, ", timeArr: ", timeArr[timeIndex]);
+    }
 }
 
 function onPlayerReady(){
@@ -35,11 +44,12 @@ function onPlayerReady(){
 }
 
 // Trigger whenever player state changes (Playing, Paused, Buffering, etc)
-function onPlayerStateChange(event) {
-    
+function onPlayerStateChange(event) {;
     // If player is playing, continually check active captions
     if (event.data == YT.PlayerState.PLAYING) {
+        highlightLines(null, "caption-cell");
         updateCounter(true);
+        timeIndex = findArrIndex(currentTime, timeArr);
         interval = setInterval(updateCounter, 100, false);
         
     // If player is not playing, stop checking for active captions
@@ -126,30 +136,6 @@ function getAllData(){
     };
 }
 
-// Scroll table when marking caption times
-function scroll(ele){
-    var container = $('.table-container');
-    // console.log("eleOffsetTop: ", ele.offset().top, 
-    //             " , conOffsetTop: ", container.offset().top, 
-    //             " , conScrollTop: ", container.scrollTop());
-    container.animate({
-        scrollTop: ele.offset().top - container.offset().top + container.scrollTop() - 94
-    });
-}
-
-function loadYouTubeAPIScript(){
-    var $tag = $("<script>", {  src: "https://www.youtube.com/iframe_api" });
-    // var $tag = $("<script>", {  src: "https://www.youtube.com/iframe_api",
-    //                             onload: function(){
-    //                                 if(action == "modify"){
-    //                                     $('#source-load').click();
-    //                                 }
-    //                             }
-    //                         });
-        
-    $("script:first").before($tag);
-}
-
 function onYouTubeIframeAPIReady() {
     if(action == "modify"){
         player = new YT.Player('player', {
@@ -170,10 +156,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 $( window ).load( function() {
-    
-    // Get Youtube API script
-    // var $tag = $("<script>", {src: "https://www.youtube.com/iframe_api"});
-    // $("script:first").before($tag);
     
     // When "Load Source" button is clicked, load YouTube video
     $('#source-load').click(function () {
@@ -213,7 +195,7 @@ $( window ).load( function() {
         var $table = $('#captions-table');
         
         $("#captions-tbody").empty();
-        $('.table-container').removeClass("hide");
+        $('.lyrics-container').removeClass("hide");
         $("#caption-lines-alert").addClass("hide");
         
         $('.captions-block').each(function(i) {
@@ -253,20 +235,43 @@ $( window ).load( function() {
             
             // If the captions is not a blank line, add text and button elements to row
             if(cap != ""){
-                $("<p>", { class: "caption-text", text: cap}).appendTo($td1);
-                $("<input>", {type: "number", min: "0", step: "0.1", value: timeArr[idx++]}).appendTo($td2);
-                $("<button>", {  type: "button", 
-                                 class:"btn btn-primary btn-sm timestamp-button", 
-                                 text: "Set",
-                                 click: function(){
-                                     var $this = $(this);
-                                     var $trow = $this.closest('tr');
-                                     var $timestamp = $trow.find('td')[1].firstChild;
-                                     $timestamp.value = (player.getCurrentTime() - 0.2).toFixed(1);
-                                     $this.addClass("btn-success");
-                                     scroll($this);
-                                 }
+                $td1.attr('id', "caption-cell-" + (idx + 1)).addClass("caption-cell");
+                
+                $("<p>", { id: "caption-" + (idx + 1),
+                           class: "caption", 
+                           text: cap}).appendTo($td1);
+                
+                var $numInput = $("<input>", {  
+                                    type: "number", 
+                                    id: "mark-" + (idx + 1),
+                                    class: "mark-time",
+                                    min: "0",
+                                    step: "0.1", 
+                                    value: timeArr[idx],
+                                });
+                            
+                $numInput.on('change', function(){
+                                var id = $(this).attr('id');
+                                id = Number(id.replace("mark-", "")) - 1;
+                                timeArr[id] = Number(this.value);
+                                console.log("id: ", id, ", Number: ", this.value);
+                            }).appendTo($td2);
+                    
+                $("<button>",{  type: "button", 
+                                class:"btn btn-primary btn-sm timestamp-button", 
+                                text: "Set",
+                                click: function(){
+                                    var $this = $(this);
+                                    var $trow = $this.closest('tr');
+                                    var $timestamp = $trow.find('td')[1].firstChild;
+                                    $trow.find("input").trigger("change");
+                                    $timestamp.value = (player.getCurrentTime() - 0.2).toFixed(1);
+                                    $this.addClass("btn-success");
+                                    scroll($this, 94);
+                                }
                             }).appendTo($td3);
+                            
+                idx++;
             }else{
                 $newRow.addClass("grey");
             }
@@ -294,6 +299,8 @@ $( window ).load( function() {
     $('#player-rewind').click(function (){
         var seekSeconds = player.getCurrentTime() - 3;
         player.seekTo(seekSeconds);
+        updateCounter(true);
+        timeIndex = findArrIndex(currentTime, timeArr);
     });
     
     $(document).ajaxStop($.unblockUI); 
@@ -301,6 +308,7 @@ $( window ).load( function() {
     // Submit captions to DB
     $('#captions-submit').click(function () {
         
+        // When AJAX runs, overlay screen with a submission message
         $.blockUI({ message: '<h2><img src="/static/img/loading.gif" /> Submitting Captions...</h2>' }); 
         
         // Setup AJAX so that csrf token is sent when invoked
@@ -313,8 +321,7 @@ $( window ).load( function() {
         });
         
         var data = getAllData();
-        // console.log(data);
-        
+
         $.ajax({
             url : "/caption_maker/submit_captions/",
             type : "POST",
@@ -326,7 +333,7 @@ $( window ).load( function() {
     
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
-                
+                console.log(errmsg);
             }
         });
         

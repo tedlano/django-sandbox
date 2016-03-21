@@ -8,6 +8,15 @@
 {% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+    <p>
+    Welcome, {{ user.first_name }}
+    </p>
+{% else %}
+    <p>Welcome, Guest</p>
+{% endif %}
+
 <h2>Summary</h2>
 <p>
   I wanted to practice my Chinese by listening to music and then follow along on a 
@@ -24,7 +33,7 @@
   <h2>List of All Captioned Videos</h2>
   <a href="{% url 'caption_maker:create_new' %}">
     <button type="button" id="captions-add" class="btn btn-success">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Your Own!
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Your Own! (Login Required)
     </button>
   </a>
 </div>
