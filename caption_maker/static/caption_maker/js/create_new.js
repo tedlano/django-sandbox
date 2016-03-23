@@ -113,7 +113,6 @@ function getAllData(){
         caption.order = order;
         caption.time = parseFloat(cells[1].firstChild.value);
         caption.break_after = false;
-        
         captionArr.push(caption);
         order++;
     });
@@ -254,7 +253,7 @@ $( window ).load( function() {
                                 var id = $(this).attr('id');
                                 id = Number(id.replace("mark-", "")) - 1;
                                 timeArr[id] = Number(this.value);
-                                console.log("id: ", id, ", Number: ", this.value);
+                                //console.log("id: ", id, ", Number: ", this.value);
                             }).appendTo($td2);
                     
                 $("<button>",{  type: "button", 

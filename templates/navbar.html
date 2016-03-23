@@ -1,0 +1,47 @@
+{% load staticfiles %}
+
+<nav class="navbar navbar-default">
+
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="{% url 'views.home' %}">
+      <img alt="Brand" src="{% static 'img/tl_favicon.png' %}">
+    </a>
+    
+    <a class="navbar-brand" href="{% url 'views.home' %}">Ted's Tools</a>
+  </div>
+
+  <div id="navbar" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar">
+      <li><a href="{% url 'caption_maker:media_list' %}">Caption Maker</a></li>
+      <li><a href="{% url 'views.numbers_quiz' %}">Numbers Quiz</a></li>
+      <li><a href="{% url 'activity_log:home' %}">Activity Log</a></li>
+    </ul>
+    
+    <div class="nav navbar-nav navbar-right">
+      {% if not user.is_authenticated %}
+      <form class="navbar-form navbar-left" role="login" method="POST" action="/login">{% csrf_token %}
+        <div class="form-group login-input">
+          <input type="text" id="login-username" name="username" class="form-control" placeholder="Username">
+          <input type="password" id="login-password" name="password" class="form-control" placeholder="Password">
+        </div>
+        <button type="submit" id="login-button" class="btn btn-primary navbar-sm">Login</button>
+      </form>
+      <a href="{% url 'views.registration' %}">
+        <button type="button" id="register-button" class="btn btn-default navbar-sm navbar-btn">Register</button>
+      </a>
+      {% else %}
+      <p class="navbar-text hidden-xs">Welcome, {{ user.first_name }}!</p>
+      <a href="{% url 'views.logout_user' %}">
+        <button type="button" id="register-button" class="btn btn-default navbar-sm navbar-btn">Logout</button>
+      </a>
+      {% endif %}
+    </div>
+  </div><!--/.nav-collapse -->
+  
+</nav>

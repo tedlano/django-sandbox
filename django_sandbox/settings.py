@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-Party Apps
+    'crispy_forms',
+    # My Apps
     'activity_log',
     'caption_maker',
 ]

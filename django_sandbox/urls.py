@@ -26,6 +26,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^numbers_quiz$', views.numbers_quiz),
     url(r'nibuzhidaodeshi$', views.nibuzhidaodeshi),
+    url(r'^login$', views.login_user),
+    url(r'^logout$', views.logout_user),
+    url(r'^registration/', views.registration),
     url(r'^$', views.home),
 ]
 

@@ -1,0 +1,27 @@
+{% load crispy_forms_tags %}
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Account Management</h4>
+      </div>
+      
+      <div class="modal-body">
+        <form action="{% url 'caption_maker:login_register' %}" method="post">{% csrf_token %}
+            {% crispy user_form %}
+            <hr/>
+           
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <input type="submit" name="submit_feedback" value="Submit" class="btn btn-primary" id="submit-id-submit_feedback" />
+           
+        </form>
+      </div>
+      
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

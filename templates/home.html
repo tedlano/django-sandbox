@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Well hello there!{% endblock %}
+{% block title %}Home | {{ block.super }}{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/countdown.css' %}">

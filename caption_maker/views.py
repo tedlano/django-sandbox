@@ -1,19 +1,63 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+
 from .models import Media, Caption, CaptionLine
+from .forms import UserForm
+
 import json, re
+
+def login_register(request):
+    if request.method=='POST':
+        form = UserForm(request.POST)
+    
+    if form.is_valid():
+        user = User.objects.create_user(username=form.cleaned_data['username'], email = form.cleaned_data['email'], password = form.cleaned_data['password'])
+        user.save()
+        launchers = user.get_profile()
+        launchers.name = form.cleaned_data['name']
+        launchers.save()
+        response = {'valid': True}
+    else:
+        response = {'valid': False}
+    
+    return HttpResponse(json.dumps(response), content_type='application/json')
+    
+    
+def user_login(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            message = ''.join(["Welcome ", user.first_name, "!"])
+        else:
+            message = "Username not found, please try again!"
+    
+    else:
+        message = "Invalid login credentials, please try again!"
+    
+    response = {
+        'message': message
+    }
+    
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def home(request):
-    context = {}
-    return render(request, 'caption_maker/home.html', context)
+    response = {}
+    return render(request, 'caption_maker/home.html', response)
 
 
 def create_new(request):
-    context = {
+    response = {
         'action': 'new'
     }
-    return render(request,  'caption_maker/create_new.html', context)
+    
+    return render(request,  'caption_maker/create_new.html', response)
 
 
 def modify_media(request, media_pk):
@@ -36,7 +80,7 @@ def modify_media(request, media_pk):
             if capLine.break_after:
                 captionArr[idx2].append("")
     
-    context = {
+    response = {
         'action': 'modify',
         'media': media,
         'labels': labelArr,
@@ -45,31 +89,42 @@ def modify_media(request, media_pk):
         'timeList': timeList
     }
     
-    return render(request, 'caption_maker/create_new.html', context)
+    return render(request, 'caption_maker/create_new.html', response)
+
 
 def media_list(request):
     media_list = Media.objects.all()
-    context = {
+    user_form = UserForm()
+    response = {
         'media_list': media_list,
+        'user_form' : user_form
     }
-    return render(request, 'caption_maker/media_list.html', context)
+    return render(request, 'caption_maker/media_list.html', response)
 
 
 def submit_captions(request):
     if request.method == 'POST':
         data = request.POST
         
+        if data['start_time']:
+            start_time = data['start_time']
+        else:
+            start_time = None
+        
+        if data['end_time']:
+            end_time = data['end_time']
+        else:
+            end_time = None
+        
         if data['action'] == "new":
             media = Media(media_type=data['mediaType'], reference_id=data['refId'], title=data[
                           'title'], author=data['author'], description=data['description'],
-                          start_time=data['start_time'], end_time=data['end_time'])
+                          start_time=start_time, end_time=end_time, created_by=request.user)
         else:
             media = get_object_or_404(Media, pk=data['media_pk'])
             media.title = data['title']
             media.author = data['author']
             media.description = data['description']
-            start_time = data['start_time']
-            end_time = data['end_time']
             
             CaptionLine.objects.filter(media_id=data['media_pk']).delete()
         
@@ -107,11 +162,11 @@ def media_detail(request, media_pk):
     
         labelList = list(Caption.objects.filter(caption_line__in=captionLines).values_list('label', flat=True).distinct())
         print(labelList)
-        context = {
+        response = {
             'media': media,
             'captionLines': captionLines,
             'timeList': timeList,
             'labelList': json.dumps(labelList)
         }
     
-    return render(request, 'caption_maker/media_detail.html', context)
+    return render(request, 'caption_maker/media_detail.html', response)

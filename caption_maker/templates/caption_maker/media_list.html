@@ -1,21 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
-{% block title %}Captioned Videos{% endblock %}
+{% block title %}Captioned Videos | {{ block.super }}{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'caption_maker/css/media_list.css' %}">
 {% endblock %}
 
 {% block content %}
-
-{% if user.is_authenticated %}
-    <p>
-    Welcome, {{ user.first_name }}
-    </p>
-{% else %}
-    <p>Welcome, Guest</p>
-{% endif %}
 
 <h2>Summary</h2>
 <p>
@@ -31,11 +24,13 @@
 <br/>
 <div class="media-list-header">
   <h2>List of All Captioned Videos</h2>
+  {% if user.is_authenticated %}
   <a href="{% url 'caption_maker:create_new' %}">
     <button type="button" id="captions-add" class="btn btn-success">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Your Own! (Login Required)
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Your Own!
     </button>
   </a>
+  {% endif %}
 </div>
 <table class="table">
   <thead>
@@ -43,7 +38,9 @@
       <td>Title</td>
       <td>Author</td>
       <td>Description</td>
+      {% if user.is_authenticated %}
       <td></td><!--Modify Button-->
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -60,6 +57,7 @@
       <td>
         {{ media.description }}
       </td>
+      {% if user.is_authenticated %}
       <td>
       	<a href="{% url 'caption_maker:modify_media' media_pk=media.pk %}">
     			<button type="button" class="btn btn-primary caption-modify">
@@ -67,6 +65,7 @@
     			</button>
   			</a>
       </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>

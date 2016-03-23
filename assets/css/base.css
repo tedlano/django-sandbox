@@ -16,6 +16,10 @@
     margin-bottom: 0px;
 }
 
+.navbar-form .login-input input {
+    width: 120px;
+}
+
 .body{
     padding-bottom: 44px;
 }
