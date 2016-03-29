@@ -26,12 +26,12 @@ $( window ).load( function() {
             },
     
             success : function(json) {
-                
+                console.log("favorite success!");
             },
     
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
-                console.log(errmsg);
+                console.log("favorite error:", errmsg);
             }
         });
     });

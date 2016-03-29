@@ -8,6 +8,7 @@ from .forms import UserForm
 
 import json, re
 
+
 def login_register(request):
     if request.method=='POST':
         form = UserForm(request.POST)
@@ -23,7 +24,7 @@ def login_register(request):
         response = {'valid': False}
     
     return HttpResponse(json.dumps(response), content_type='application/json')
-    
+
     
 def user_login(request):
     username = request.POST['username']
@@ -75,6 +76,7 @@ def favorite_media(request):
     }
     
     return HttpResponse(json.dumps(response), content_type='application/json')
+
 
 def modify_media(request, media_pk):
     media = get_object_or_404(Media, pk=media_pk)
