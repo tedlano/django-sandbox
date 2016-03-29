@@ -6,35 +6,53 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'caption_maker/css/media_list.css' %}">
+<script>
+  var user_id = {{ user.id }};
+  var media_ids = {{ favorite_media_ids|safe }};
+</script>
 {% endblock %}
 
 {% block content %}
 
 <h2>Summary</h2>
 <p>
-  I wanted to practice my Chinese by listening to music and then follow along on a 
-  script in order to memorize phrases, sentence structures, characters, etc.  Unfortunately, I hadn't 
-  found a good way to do this aside from blankly staring at a word document or a piece of paper while 
-  playing the song off of YouTube.  After failing to find chinese songs on YouTube with closed-captioning, 
-  I wondered if I could do it myself.  So I made this and now I can, and so can you!  I still have some 
-  work to do in order to make the user interface more friendly, but so far this is looking pretty good 
-  if I do say so myself.
-  <br/><br/>
+  Listening to songs are a great way to study a foreign language.  I've been able to find many songs on YouTube, 
+  but most of them do not have captions to help me follow along.  Normally the original uploader can only add 
+  captions to a video, but with this app you can add captions to any video you want and see the captions that 
+  other users have added to videos!  Please feel free to try this out and send any questions, comments, or 
+  suggestions to 
+  <a href="mailto:theodore.lano@gmail.com?Subject=Caption%20Maker%20Comment" target="_top">
+    theodore.lano@gmail.com
+  </a>
 </p>
+<p>
+  <strong>Additional Features in Development:</strong><br/>
+  <ul>
+    <li>Tag Media for quick finding and sorting (eg: Mandarin, Spanish, etc)</li>
+    <li>Favorites: Mark media as favorite and save in its own folder</li>
+    <li>Prevent users from changing other people's captions</li>
+    <li>Type-ahead for labels when creating new captions</li>
+  </ul>
+</p>
+
 <br/>
 <div class="media-list-header">
-  <h2>List of All Captioned Videos</h2>
-  {% if user.is_authenticated %}
-  <a href="{% url 'caption_maker:create_new' %}">
-    <button type="button" id="captions-add" class="btn btn-success">
+  <h2>Captioned Videos</h2>
+  <br/>
+  <a href="{% url 'caption_maker:create_new' %}" class="btn btn-success pull-right {% if not user.is_authenticated %}disabled{% endif %}">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Your Own!
-    </button>
+      {% if not user.is_authenticated %}
+        (Requires Login)
+      {% endif %}
   </a>
-  {% endif %}
 </div>
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
+      <td class="id-col hidden"></td>
+      {% if user.is_authenticated %}
+      <td class="favorite-col"></td> <!--favorite star icon-->
+      {% endif %}
       <td>Title</td>
       <td>Author</td>
       <td>Description</td>
@@ -46,6 +64,17 @@
   <tbody>
     {% for media in media_list %}
     <tr>
+      <td class="id-col hidden">
+        {{ media.id }}
+      </td>
+      {% if user.is_authenticated %}
+      <td class="favorite-col favorite">
+        <span class="glyphicon 
+        {% if media.id in favorite_media_ids %} glyphicon-star star-color
+        {% else %} glyphicon-star-empty
+        {% endif %}" aria-hidden="true"></span>
+      </td>
+      {% endif %}
       <td>
         <a href="{% url 'caption_maker:media_detail' media_pk=media.pk %}">
           {{ media.title }}
@@ -71,4 +100,8 @@
   </tbody>
 </table>
 
+{% endblock %}
+
+{% block js-foot %}
+<script src="{% static 'caption_maker/js/media_list.js' %}"></script>
 {% endblock %}

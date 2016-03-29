@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Media, Caption, CaptionLine
+from .models import Media, Caption, CaptionLine, FavoriteMedia
 
 class CaptionInline(admin.StackedInline):
     model = Caption
@@ -13,3 +13,4 @@ class CaptionLineAdmin(admin.ModelAdmin):
 admin.site.register(Media)
 admin.site.register(CaptionLine, CaptionLineAdmin)
 admin.site.register(Caption)
+admin.site.register(FavoriteMedia)

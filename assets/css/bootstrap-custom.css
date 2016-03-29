@@ -20,3 +20,15 @@ h6.panel-title {
 thead{
     font-weight: bold;
 }
+
+.glyphicon-star, .glyphicon-star-empty{
+    font-size: 24px;
+}
+
+.star-color{
+    color: #FFC107;
+}
+
+.glyphicon-user {
+    font-size: 18px;
+}

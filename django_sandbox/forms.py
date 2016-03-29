@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button, HTML
 from crispy_forms.bootstrap import FormActions, StrictButton, InlineField
 
 import re
@@ -45,11 +45,14 @@ class RegistrationForm(forms.ModelForm):
         # InlineField('password', placeholder='Create password'),
         # InlineField('password2', placeholder='Verify password'),
         'username',
+        'password', 
+        'password2',
+        HTML("""
+            <br/><p>The rest of the fields are optional, and currently are not used for anything in particular.</p>
+        """),
         'email',
         'first_name',
         'last_name',
-        'password', 
-        'password2',
         ButtonHolder(
             Submit('submit', 'Submit')
         )
@@ -57,7 +60,7 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = [ "username", "email", "first_name", "last_name", "password", "password2"]
+        fields = [ "username",  "password", "password2", "email", "first_name", "last_name"]
     
     
     def clean_username(self):

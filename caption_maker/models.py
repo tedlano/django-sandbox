@@ -36,15 +36,34 @@ class CaptionLine(models.Model):
     def __unicode__(self):
         return unicode(self.order) + u' (' + unicode(self.mark_time) + u')' or u'no order'
 
+# TO BE IMPLEMENTED
+class CaptionLabel(models.Model):
+    label = models.CharField(max_length=32)
+    order = models.IntegerField(default=1)
+    created_by = models.ForeignKey(User)
+    
+    class Meta:
+        ordering = ['order',]
+    
+    def __unicode__(self):
+        return unicode(self.label) or u'no label'
+
 
 class Caption(models.Model):
     caption_line = models.ForeignKey(CaptionLine)
-    label = models.CharField(max_length=32)
+    # caption_label = models.ForeignKey(CaptionLabel)
+    label = models.CharField(max_length=32) # to remove
     text = models.CharField(max_length=256)
-    order = models.IntegerField(default=1)
+    order = models.IntegerField(default=1)  # to remove
 
     class Meta:
         ordering = ['label', 'order',]
     
     def __unicode__(self):
         return unicode(self.text) or u'no caption text'
+
+
+class FavoriteMedia(models.Model):
+    media = models.ForeignKey(Media)
+    user = models.ForeignKey(User)
+

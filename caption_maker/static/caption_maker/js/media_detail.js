@@ -44,7 +44,7 @@ function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
         tIndex = findArrIndex(player.getCurrentTime(), timeArr);
         findActiveCaption();
-        interval = setInterval(findActiveCaption, 100);
+        interval = setInterval(findActiveCaption, 50);
         
     // If player is not playing, stop checking for active captions
     } else {

@@ -2,10 +2,6 @@
     display: inline;
 }
 
-.media-list-header button {
-    float: right;
-}
-
-.login {
-    float: right;
+.favorite-col {
+    /*display: none;*/
 }

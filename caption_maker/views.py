@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
-from .models import Media, Caption, CaptionLine
+from .models import Media, Caption, CaptionLine, FavoriteMedia
 from .forms import UserForm
 
 import json, re
@@ -60,6 +60,22 @@ def create_new(request):
     return render(request,  'caption_maker/create_new.html', response)
 
 
+def favorite_media(request):
+    data = request.POST
+    
+    try:
+        favorite = FavoriteMedia.objects.get(media_id = data['media_id'], user_id = request.user)
+        favorite.delete()
+    except FavoriteMedia.DoesNotExist:
+        favorite = FavoriteMedia(media_id = data['media_id'], user= request.user)
+        favorite.save()
+    
+    response = {
+        'hello': 'hello'
+    }
+    
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
 def modify_media(request, media_pk):
     media = get_object_or_404(Media, pk=media_pk)
     captionLines = CaptionLine.objects.filter(media_id=media_pk)
@@ -94,11 +110,17 @@ def modify_media(request, media_pk):
 
 def media_list(request):
     media_list = Media.objects.all()
-    user_form = UserForm()
+    
+    if request.user.is_authenticated():
+        favorite_media_ids = FavoriteMedia.objects.filter(user=request.user).values_list('media_id', flat=True)
+    else:
+        favorite_media_ids = []
+    
     response = {
         'media_list': media_list,
-        'user_form' : user_form
+        'favorite_media_ids': favorite_media_ids
     }
+    
     return render(request, 'caption_maker/media_list.html', response)
 
 

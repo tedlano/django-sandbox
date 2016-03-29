@@ -21,6 +21,14 @@
 
 <div class="row">
   <div class="col-md-9 center">
+    {% if not user.is_authenticated %}
+    <div class="text-center">
+      <h3>You sly dog, you must login to create or modify captioned videos!</h3>
+      <br/>
+      <img src="http://31.media.tumblr.com/8e1428d7d917d2cdbc015181056947d7/tumblr_inline_n95fdhCfcF1sy4ujy.jpg" 
+        alt="sly_dog">
+    </div>
+    {% else %}
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h2 class="panel-title">Step 1: Find YouTube Source Video, Review Details</h2>
@@ -264,8 +272,10 @@
         <button type="button" id="captions-submit" class="btn btn-primary">Submit Captions</button>
       </div>
     </div>
+    
+    {% endif %}
   </div>
-</div>
+</div> <!--end row-->
 {% endblock %}
 
 {% block js-foot %}
