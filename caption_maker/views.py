@@ -185,7 +185,7 @@ def media_detail(request, media_pk):
             timeList.append(float(capLine.mark_time))
     
         labelList = list(Caption.objects.filter(caption_line__in=captionLines).values_list('label', flat=True).distinct())
-        print(labelList)
+        #print(labelList)
         response = {
             'media': media,
             'captionLines': captionLines,
