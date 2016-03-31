@@ -21,6 +21,7 @@
     width: 98%;
     max-width: 600px;
     height: 40vh;
+    font-size: 16px;
     overflow-y: scroll;
     overflow-x: hidden;
 }

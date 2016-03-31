@@ -260,11 +260,15 @@ $( window ).load( function() {
                                 class:"btn btn-primary btn-sm timestamp-button", 
                                 text: "Set",
                                 click: function(){
-                                    var $this = $(this);
+                                    var $this = $(this);                                        ///TO FIX: Mix of jQuery and Javascript in here
                                     var $trow = $this.closest('tr');
                                     var $timestamp = $trow.find('td')[1].firstChild;
+                                    var id = $($timestamp).attr('id');
+                                    
+                                    id = Number(id.replace("mark-", "")) - 1;
                                     $trow.find("input").trigger("change");
                                     $timestamp.value = (player.getCurrentTime() - 0.2).toFixed(1);
+                                    timeArr[id] = Number($timestamp.value);
                                     $this.addClass("btn-success");
                                     scroll($this, 94);
                                 }
@@ -298,8 +302,8 @@ $( window ).load( function() {
     $('#player-rewind').click(function (){
         var seekSeconds = player.getCurrentTime() - 3;
         player.seekTo(seekSeconds);
+        timeIndex = findArrIndex(seekSeconds, timeArr);
         updateCounter(true);
-        timeIndex = findArrIndex(currentTime, timeArr);
     });
     
     $(document).ajaxStop($.unblockUI); 

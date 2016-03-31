@@ -26,11 +26,12 @@
 
 footer {
 	width: 100%;
-	position: relative;
+	/*position: absolute;*/
 	height: 44px;
-	bottom: 0px;
+	bottom: 0;
 }
 
 .footer-block{
     margin-top: -15px;
+    display: block;
 }

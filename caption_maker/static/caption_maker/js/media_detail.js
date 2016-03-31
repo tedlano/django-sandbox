@@ -16,9 +16,9 @@ function findActiveCaption(){
     var t = player.getCurrentTime();
 
     if (t > timeArr[tIndex]){
-        var ele = $(".line-" + ++tIndex);
+        var ele = $(".line-" + ++tIndex + ":visible");
         highlightLines(ele, "caption-cell");
-        scroll(ele);
+        scroll(ele, 80);
     }
 }
 
