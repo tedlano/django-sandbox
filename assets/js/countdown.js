@@ -8,7 +8,7 @@ $(document).ready(function() {
 			// Used to add leading zero if number has less than 1 character
 			function addLeadZero(num){
 				if (num.toString().length < 2){
-					num = "0" + num
+					num = "0" + num;
 				}
 				return num
 			}
@@ -16,7 +16,7 @@ $(document).ready(function() {
 			// Clears the interval timer (stops countdown), and displays alert message for new year
 			function endCountdownAlert(){
 				clearInterval(interval);
-				alert('Happy New Year!');
+				alert('Happy Birthday!');
 			}
 
 			// Gets amount of time left between now and specified end date
@@ -26,7 +26,7 @@ $(document).ready(function() {
 		  		var days = "00";
 		  		var hours = "00";
 		  		var minutes = "00";
-		  		var seconds = "00"
+		  		var seconds = "00";
 
 		  		// Don't want the countdown displaying negative numbers if endDate has already passed
 		  		if (t >= 1000){
@@ -69,6 +69,6 @@ $(document).ready(function() {
 	}) (jQuery);
 
 	// Run countdown function
-	$("#countdown").countdown("2016/04/08 00:00:00");
+	$("#countdown").countdown("2017/04/08 00:00:00");
 
 });

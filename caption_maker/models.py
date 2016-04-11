@@ -43,7 +43,7 @@ class CaptionLabel(models.Model):
     created_by = models.ForeignKey(User)
     
     class Meta:
-        ordering = ['order',]
+        ordering = ['label','order',]
     
     def __unicode__(self):
         return unicode(self.label) or u'no label'
