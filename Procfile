@@ -1,1 +1,1 @@
-web: gunicorn {{ django_sandbox }}.wsgi --log-file -
+web: gunicorn django_sandbox.wsgi --log-file=-
