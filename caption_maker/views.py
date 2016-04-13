@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
-from .models import Media, Caption, CaptionLine, FavoriteMedia
+from .models import Media, Caption, CaptionLine, CaptionLabel, FavoriteMedia
 from .forms import UserForm
 
 import json, re
@@ -156,6 +156,8 @@ def submit_captions(request):
         
         capList = re.findall(r'\{([^}]*)\}', data['captions'])
         capLines = json.loads(data['captionLines'])
+        
+        capLabelDict = {};
 
         for idx1, cap in enumerate(capList):
             c = json.loads("{" + cap + "}")
@@ -165,7 +167,17 @@ def submit_captions(request):
             captionLine.save()
 
             for idx2, key in enumerate(capLines):
-                caption = Caption(caption_line=captionLine,
+                
+                print idx2
+                
+                if idx1 == 0:
+                    captionLabel = CaptionLabel(label=key, order=idx2, created_by=request.user)
+                    captionLabel.save()
+                    capLabelDict[idx2] = captionLabel
+                else:
+                    captionLabel = capLabelDict[idx2]
+                
+                caption = Caption(caption_line=captionLine, captionLabel=captionLabel,
                                   order=idx2, label=key, text=capLines[key][idx1])
                 caption.save()
         

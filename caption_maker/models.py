@@ -51,7 +51,7 @@ class CaptionLabel(models.Model):
 
 class Caption(models.Model):
     caption_line = models.ForeignKey(CaptionLine)
-    # caption_label = models.ForeignKey(CaptionLabel)
+    caption_label = models.ForeignKey(CaptionLabel, null=True)
     label = models.CharField(max_length=32) # to remove
     text = models.CharField(max_length=256)
     order = models.IntegerField(default=1)  # to remove

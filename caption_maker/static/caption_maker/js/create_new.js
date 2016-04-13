@@ -216,6 +216,7 @@ $( window ).load( function() {
             // First caption section are the primary captions
             if(i==0) primaryCaps = capArr;
             
+            // Remove empty array elements
             captionLineArr[label] = capArr.filter(Boolean);
             
         });
