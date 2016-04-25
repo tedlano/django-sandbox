@@ -36,7 +36,7 @@
 
       <div class="panel-body">
         <p>Enter YouTube URL and click "Load Source" to get video.  Enter in as many details as you want, and proceed to Step 2.</p>
-        <form class="form-horizontal">
+        <form id="sourceForm" class="form-horizontal">
 
           <div class="form-group required">
             <label for="source-input" class="col-sm-3 control-label">Media Source URL </label>
@@ -45,7 +45,7 @@
                 <span class="input-group-btn">
                   <button type="button" id="source-load" class="btn btn-primary">Load Source</button>
                 </span>
-                <input type="text" class="form-control" id="source-input" placeholder="Enter / Paste Source URL here"
+                <input type="text" class="form-control" id="source-input" placeholder="Enter / Paste Source URL here" name="url"
                   value="{% if media %}https://www.youtube.com/watch?v={{ media.reference_id }}{% endif %}"
                   {% if media %}disabled{% endif %}/>
               </div>
@@ -56,7 +56,7 @@
             <label for="source-title" class="col-sm-3 control-label">Media Title </label>
             <div class="col-sm-8">
               <input type="text" id="source-title" class="form-control" placeholder="eg: Smooth Criminal" 
-                value="{% if media %}{{ media.title }}{% endif %}"/>
+                name="title" value="{% if media %}{{ media.title }}{% endif %}"/>
             </div>
           </div>
 
@@ -64,15 +64,15 @@
             <label for="source-author" class="col-sm-3 control-label">Author</label>
             <div class="col-sm-8">
               <input type="text" id="source-author" class="form-control" placeholder="eg: Michael Jackson"
-                value="{% if media %}{{ media.author }}{% endif %}"/>
+                name="author" value="{% if media %}{{ media.author }}{% endif %}"/>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="source-author" class="col-sm-3 control-label">Description</label>
+            <label for="source-description" class="col-sm-3 control-label">Description</label>
             <div class="col-sm-8">
               <textarea id="source-description" class="form-control" placeholder="Enter Description Here..." 
-                rows="5">{% if media %}{{ media.description }}{% endif %}</textarea>
+                name="description" rows="5">{% if media %}{{ media.description }}{% endif %}</textarea>
             </div>
           </div>
         </form>
@@ -91,7 +91,8 @@
           Create a label for your captions and then enter or paste captions in text area 
           (broken up by line).  All primary and secondary captions must have the same number 
           of lines.  Blank lines will be treated as spacers and will not have timing marks 
-          associated with them.
+          associated with them.  Here, you might want to use 
+          <a href="https://translate.google.com/" target="_blank">Google Translate</a>.
         </p>
         <div class="row">
           <form id="captions-form" class="form-horizontal">
@@ -101,13 +102,13 @@
                 <label for="captions-label" class="col-sm-3 control-label">Primary Caption Label </label>
                 <div class="col-sm-3">
                   <input type="text" class="form-control captions-label" placeholder="eg: English, Chinese, etc."
-                    value="{% if media %}{{ captions.0.0.label }}{% endif %}" />
+                    name="caption-label" value="{% if media %}{{ captions.0.0.label }}{% endif %}" />
                 </div>
               </div>
               <div class="form-group required">
                 <label for="captions-textarea" class="col-sm-3 control-label">Primary Captions </label>
                 <div class="col-sm-8">
-                  <textarea class="form-control captions-textarea" placeholder="Enter / Paste captions here..." 
+                  <textarea class="form-control captions-textarea" placeholder="Enter / Paste captions here..." name="caption-text"
                     rows="10">{% if media %}{% for cap in captions.0 %}{{ cap.text }}{% if not forloop.last %}&#13;&#10;{% endif %}{% endfor %}{% endif %}</textarea>
                 </div>
               </div>

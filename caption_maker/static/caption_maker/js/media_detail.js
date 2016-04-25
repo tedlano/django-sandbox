@@ -1,6 +1,8 @@
 var player;
 var interval;
 var tIndex = 0;
+var currentTime = 0;
+var int_ms = 100;
 
 function getCaptionLabel(label){
     switch (label){
@@ -12,13 +14,27 @@ function getCaptionLabel(label){
 }
 
 // Find which caption is active
-function findActiveCaption(){
-    var t = player.getCurrentTime();
-
-    if (t > timeArr[tIndex]){
+function findActiveCaption(useApiBool){
+    if (tIndex == -1){
+        var ele = $(".line-1:visible");
+        highlightLines(ele, "caption-cell", false);
+        scroll(ele, 80);
+        tIndex++;
+    }
+    
+    if (useApiBool){
+        currentTime = player.getCurrentTime();
+    } else {
+        currentTime+= (int_ms / 1000);
+    }
+    
+    if (currentTime > timeArr[tIndex]){
         var ele = $(".line-" + ++tIndex + ":visible");
         highlightLines(ele, "caption-cell");
         scroll(ele, 80);
+        
+        //To make sure play is caught up
+        currentTime = player.getCurrentTime();
     }
 }
 
@@ -43,8 +59,8 @@ function onPlayerStateChange(event) {
     // If player is playing, continually check active captions
     if (event.data == YT.PlayerState.PLAYING) {
         tIndex = findArrIndex(player.getCurrentTime(), timeArr);
-        findActiveCaption();
-        interval = setInterval(findActiveCaption, 50);
+        findActiveCaption(true);
+        interval = setInterval(findActiveCaption, int_ms, false);
         
     // If player is not playing, stop checking for active captions
     } else {

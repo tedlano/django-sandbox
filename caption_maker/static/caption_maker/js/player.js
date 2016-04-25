@@ -3,6 +3,9 @@ function findArrIndex(t, arr){
     var mid;
     var lo = 0;
     var hi = arr.length - 1;
+    
+    if(t < arr[0]) return -1;
+    
     while (hi - lo > 1) {
         mid = Math.floor ((lo + hi) / 2);
         if (arr[mid] < t) {
@@ -15,9 +18,9 @@ function findArrIndex(t, arr){
 }
 
 // Highlight active captions, remove highlights from inactive ones
-function highlightLines(ele = null, remClass){
+function highlightLines(ele = null, remClass, highlight = true){
     $('.' + remClass).removeClass('highlight');
-    if(ele) ele.addClass('highlight');
+    if(ele && highlight) ele.addClass('highlight');
 }
 
 // Scroll table when marking caption times

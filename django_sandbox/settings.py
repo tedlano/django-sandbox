@@ -25,7 +25,7 @@ SECRET_KEY = 'l=kqccobi2bk^zlpttl@^nds+k74_w*z5##ub#&&00!uvkw9l3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-sandbox-theodore4889.c9users.io', 'django-sandbox-123.herokuapp.com']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
@@ -82,6 +82,9 @@ WSGI_APPLICATION = 'django_sandbox.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 # http://www.saltycrane.com/blog/2009/08/notes-migrating-blog-sqlite-postgresql/
+
+# import dj_database_url
+# DATABASES['default'] =  dj_database_url.config()
 
 DATABASES = {
     # 'default': {
@@ -152,6 +155,20 @@ DATABASES['default'].update(db_from_env)
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+   
     
+# Database Settings for Heroku    
     
-    
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ['*']
+
+DEBUG = False
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
