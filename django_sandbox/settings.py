@@ -86,21 +86,21 @@ WSGI_APPLICATION = 'django_sandbox.wsgi.application'
 # import dj_database_url
 # DATABASES['default'] =  dj_database_url.config()
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # },
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     # },
     
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_sandbox',
-        'HOST': 'localhost',
-        'USER': 'ted',
-        'PASSWORD': 'passw0rd',
-        'PORT': '',
-    }
-}
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'django_sandbox',
+#         'HOST': 'localhost',
+#         'USER': 'ted',
+#         'PASSWORD': 'passw0rd',
+#         'PORT': '',
+#     }
+# }
 
 
 # Password validation
@@ -147,9 +147,9 @@ STATICFILES_DIRS = (
 
 
 # Update database configuration with $DATABASE_URL.
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# import dj_database_url
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
 
 
 # Simplified static file serving.
@@ -160,6 +160,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Database Settings for Heroku    
     
 import dj_database_url
+DATABASES = {}
 DATABASES['default'] = dj_database_url.config()
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
