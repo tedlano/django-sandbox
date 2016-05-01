@@ -23,18 +23,19 @@ function findActiveCaption(useApiBool){
     }
     
     if (useApiBool){
-        currentTime = player.getCurrentTime();
+        currentTime = player.getCurrentTime() +.1;  //offset because api takes time to execute
     } else {
         currentTime+= (int_ms / 1000);
     }
     
-    if (currentTime > timeArr[tIndex]){
+    // Time to highlight!
+    if (currentTime >= timeArr[tIndex]){
         var ele = $(".line-" + ++tIndex + ":visible");
         highlightLines(ele, "caption-cell");
         scroll(ele, 80);
         
         //To make sure play is caught up
-        currentTime = player.getCurrentTime();
+        currentTime = player.getCurrentTime() +.1; //offset, see above
     }
 }
 
@@ -68,7 +69,7 @@ function onPlayerStateChange(event) {
     }
 }
 
-$( window ).load( function() {
+$( document ).ready( function() {
     
     // Get Youtube API script
     loadYouTubeAPIScript();
@@ -93,13 +94,12 @@ $( window ).load( function() {
                         }
                 }).appendTo($('#toggle-buttons'));
     }
-    
+
 });
 
-
-
-
-
-
-
-
+//When user leaves tab, the highlighting stops, so, when the user comes back
+// we want to find which captions to highlight.
+$(window).on('focus', function() {
+    tIndex = findArrIndex(player.getCurrentTime(), timeArr);
+    findActiveCaption(true);
+});

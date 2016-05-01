@@ -6,6 +6,10 @@
     padding-top: 14px;
 }
 
+.answer-button {
+    border-radius: 50%;
+}
+
 .number-quiz {
     width: 95%;
     text-align: center;

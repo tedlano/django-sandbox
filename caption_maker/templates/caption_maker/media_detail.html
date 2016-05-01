@@ -19,18 +19,21 @@
 {% block content %}
 <div class="text-center row">
   <div class=".col-md-12">
-    <h3>{{ media.title }}</h3>
+    <h3 id="title">{{ media.title }}</h3>
     <h4>{{ media.author }}</h4>
     <div id="player" class="video"></div>
 
     <div class="lyrics-container center">
       <table class="lyrics center">
         <tbody>
-
+          <!-- for every line -->
           {% for capLine in captionLines %}
+          <!-- for every caption set (Chinese, English, etc) (there may be 
+                multiple caption sets per line.  Order determined by meta setting) -->
           {% for cap in capLine.caption_set.all %}
           <tr class="{{ cap.label|lower }} caption-cell line-{{ capLine.order }}">
             <td>
+              <!-- display caption text -->
               {{ cap.text }}
             </td>
           </tr>

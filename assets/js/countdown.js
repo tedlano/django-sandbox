@@ -14,10 +14,10 @@ $(document).ready(function() {
 			}
 
 			// Clears the interval timer (stops countdown), and displays alert message for new year
-			function endCountdownAlert(){
-				clearInterval(interval);
-				alert('Happy Birthday!');
-			}
+			// function endCountdownAlert(){
+			// 	clearInterval(interval);
+			// 	alert('Happy Mother''s Day!');
+			// }
 
 			// Gets amount of time left between now and specified end date
 			function getCounterData(endDate){
@@ -54,10 +54,10 @@ $(document).ready(function() {
 				_this.find(".minutes").text(countData.minutes);
 				_this.find(".seconds").text(countData.seconds);
 
-				// if less than 1000 milliseconds, end countdown
-				if (countData.time < 1000){
-		  			endCountdownAlert();
-		  		}
+				// // if less than 1000 milliseconds, end countdown
+				// if (countData.time < 1000){
+		  //			endCountdownAlert();
+		  //		}
 			}
 			
 			// Set interval, run updateCountdown every second until specified endDate
@@ -69,6 +69,6 @@ $(document).ready(function() {
 	}) (jQuery);
 
 	// Run countdown function
-	$("#countdown").countdown("2017/04/08 00:00:00");
+	$("#countdown").countdown("2016/05/08 00:00:00");
 
 });

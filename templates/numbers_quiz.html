@@ -15,8 +15,14 @@
 	<p>Select language, click speaker icon to listen, and guess number</p>
 
 	<audio id="num-audio" type="audio/mpeg"></audio>
-	<button type="button" id="sound-button" class="btn btn-primary sound-button">
+	<button type="button" id="sound-button" class="btn btn-primary sound-button" 
+		data-toggle="tooltip" data-placement="left" title="Play Sound">
 		<span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+	</button>
+	&nbsp;
+	<button type="button" id="answer-button" class="btn btn-danger answer-button"
+		data-toggle="tooltip" data-placement="right" title="Show Answer">
+		<b>?</b>
 	</button>
 	<br/><br/>
 	<input type="number" id="guess-input" name="guess"/>

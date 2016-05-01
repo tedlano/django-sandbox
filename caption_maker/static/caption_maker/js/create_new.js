@@ -154,7 +154,7 @@ function onYouTubeIframeAPIReady() {
     }
 }
 
-$( window ).load( function() {
+$( document ).ready( function() {
     
     // When "Load Source" button is clicked, load YouTube video
     $('#source-load').click(function () {

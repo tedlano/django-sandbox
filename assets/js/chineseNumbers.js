@@ -1,4 +1,4 @@
-$( window ).load( function() {
+$( document ).ready( function() {
     
     var num;                        // Random number to guesss
     var correct = 0;                // Number of correct guesses
@@ -29,7 +29,7 @@ $( window ).load( function() {
     function initNumber() {
         num = Math.floor(Math.random() * Math.pow(10,9));
         num=parseInt(num.toString().slice(0, numDigits));
-        console.log(num);
+        console.log("The nubmer is", num);
 
         sayNumber();
         $("#guess-input")[0].focus();
@@ -106,6 +106,9 @@ $( window ).load( function() {
     
     initNumber();
     
+    // Enable Tooltips
+    $('[data-toggle="tooltip"]').tooltip(); 
+    
     // window.addEventListener("load",function() {
     // 	// Set a timeout...
     // 	setTimeout(function(){
@@ -117,6 +120,24 @@ $( window ).load( function() {
     // When sound button clicked, say number
     $('#sound-button').click( function(){
         sayNumber();
+    });
+    
+    // When answer button is clicked, display answer
+    $('#answer-button').click( function(){
+        $('#guess-input').val(num);
+        $('#guess-input').addClass("wrong");
+        
+        wrong++;
+        streak = 0;
+        $('#results-text')[0].innerHTML = "Correct: " + correct + 
+                                          ", Wrong: " + wrong + 
+                                          ", Streak: " + streak;
+        setTimeout(function() {
+            $('#guess-input').removeClass("wrong");
+            $('#guess-input').val(null);
+            initNumber();
+            lockEnter = false;
+         }, 1000);
     });
     
     // When any button on the number pad is clicked
