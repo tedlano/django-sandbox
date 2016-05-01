@@ -36,7 +36,7 @@ class CaptionLine(models.Model):
     def __unicode__(self):
         return unicode(self.order) + u' (' + unicode(self.mark_time) + u')' or u'no order'
 
-# TO BE IMPLEMENTED
+
 class CaptionLabel(models.Model):
     label = models.CharField(max_length=32)
     order = models.IntegerField(default=1)

@@ -168,16 +168,17 @@ def submit_captions(request):
 
             for idx2, key in enumerate(capLines):
                 
-                print idx2
+                captionLabel = None
                 
                 if idx1 == 0:
+                    print "label %s, order %s, created_by %s" % (key, idx2, request.user)
                     captionLabel = CaptionLabel(label=key, order=idx2, created_by=request.user)
                     captionLabel.save()
                     capLabelDict[idx2] = captionLabel
                 else:
                     captionLabel = capLabelDict[idx2]
                 
-                caption = Caption(caption_line=captionLine, captionLabel=captionLabel,
+                caption = Caption(caption_line=captionLine, caption_label=captionLabel,
                                   order=idx2, label=key, text=capLines[key][idx1])
                 caption.save()
         
